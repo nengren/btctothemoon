@@ -1,0 +1,44 @@
+{
+  "score": 28,
+  "lastUpdated": "2026-03-02",
+  "lastUpdatedFull": "2026-03-02T04:58:15.198138+00:00",
+  "summary": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。",
+  "indicators": [
+    {
+      "name": "恐惧贪婪指数",
+      "value": 10,
+      "sub_score": 10,
+      "status": "cold",
+      "note": "10/100，极度恐惧"
+    },
+    {
+      "name": "价格 vs 200日均线",
+      "value": -31.1,
+      "sub_score": 23.941112656743663,
+      "status": "cold",
+      "note": "价格在200日均线下方 31%"
+    },
+    {
+      "name": "永续合约资金费率",
+      "value": null,
+      "sub_score": 50,
+      "status": "neutral",
+      "note": "数据获取失败"
+    },
+    {
+      "name": "BTC 市场占比",
+      "value": 56.2,
+      "sub_score": 36.914039903477004,
+      "status": "positive",
+      "note": "56.2%，正常区间"
+    }
+  ],
+  "raw": {
+    "fear_greed": 10,
+    "btc_price": 66749,
+    "ma_200": 96820,
+    "deviation_pct": -31.06,
+    "funding_rate": null,
+    "btc_dominance": 56.23
+  }
+}
