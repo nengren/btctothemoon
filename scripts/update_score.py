@@ -1,25 +1,20 @@
 """
-btctothemoon.uk - BTC 周期评分脚本
-每天由 GitHub Actions 自动运行，输出 data.json
+btctothemoon.uk - BTC Cycle Score
+Runs daily via GitHub Actions, outputs data.json
 
-数据源（全部免费，无需 API Key）：
-1. Alternative.me - 恐惧贪婪指数
-2. CoinGecko - BTC 价格 + 200日均线 + 市场占比
-3. Binance - 永续合约资金费率
+Data sources (all free, no API key):
+1. Alternative.me - Fear & Greed Index
+2. CoinGecko - BTC price + 200DMA + dominance
+3. Binance - Perpetual funding rate (with fallbacks)
 """
 
 import json
 import urllib.request
-import urllib.error
 import time
 from datetime import datetime, timezone
 
-# ============================================
-# 数据采集
-# ============================================
 
 def fetch_json(url, retries=2):
-    """带重试的 JSON 请求"""
     for i in range(retries + 1):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "btctothemoon/1.0"})
@@ -29,12 +24,11 @@ def fetch_json(url, retries=2):
             if i < retries:
                 time.sleep(2)
             else:
-                print(f"[ERROR] {url}: {e}")
+                print(f"  [FAIL] {url}: {e}")
                 return None
 
 
 def get_fear_greed():
-    """恐惧贪婪指数 (0-100)"""
     data = fetch_json("https://api.alternative.me/fng/?limit=1")
     if data and "data" in data:
         return int(data["data"][0]["value"])
@@ -42,302 +36,217 @@ def get_fear_greed():
 
 
 def get_btc_price_and_200dma():
-    """当前价格 + 200日均线"""
-    # 获取 201 天的日线数据（多取1天确保够200天计算）
     data = fetch_json(
         "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
         "?vs_currency=usd&days=201&interval=daily"
     )
     if not data or "prices" not in data:
         return None, None, None
-
     prices = [p[1] for p in data["prices"]]
     if len(prices) < 200:
         return None, None, None
-
     current_price = prices[-1]
     ma_200 = sum(prices[-200:]) / 200
-    deviation_pct = ((current_price / ma_200) - 1) * 100  # +50 means 50% above MA
-
+    deviation_pct = ((current_price / ma_200) - 1) * 100
     return current_price, ma_200, deviation_pct
 
 
 def get_funding_rate():
-    """Binance BTCUSDT 永续合约最近一次资金费率"""
-    data = fetch_json(
-        "https://fapi.binance.com/fapi/v1/fundingRate"
-        "?symbol=BTCUSDT&limit=1"
-    )
-    if data and len(data) > 0:
-        return float(data[0]["fundingRate"])
+    domains = ["fapi.binance.com", "fapi1.binance.com", "fapi2.binance.com"]
+    for domain in domains:
+        data = fetch_json(f"https://{domain}/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1", retries=1)
+        if data and len(data) > 0:
+            print(f"  [OK] from {domain}/fundingRate")
+            return float(data[0]["fundingRate"])
+    for domain in domains:
+        data = fetch_json(f"https://{domain}/fapi/v1/premiumIndex?symbol=BTCUSDT", retries=1)
+        if data and "lastFundingRate" in data:
+            print(f"  [OK] from {domain}/premiumIndex")
+            return float(data["lastFundingRate"])
     return None
 
 
 def get_btc_dominance():
-    """BTC 市场占比 (%)"""
     data = fetch_json("https://api.coingecko.com/api/v3/global")
     if data and "data" in data:
         return data["data"]["market_cap_percentage"].get("btc")
     return None
 
 
-# ============================================
-# 评分逻辑
-# ============================================
-
-def clamp(val, lo=0, hi=100):
-    return max(lo, min(hi, val))
+def clamp(v, lo=0, hi=100):
+    return max(lo, min(hi, v))
 
 
-def score_fear_greed(value):
-    """恐惧贪婪指数直接作为子分 (0-100)"""
-    if value is None:
-        return 50  # 默认中性
-    return clamp(value)
+def score_fear_greed(v):
+    return clamp(v) if v is not None else 50
+
+def score_price_deviation(d):
+    if d is None: return 50
+    if d <= -40: return 5
+    if d <= -20: return 15 + (d + 40)
+    if d <= 0: return 35 + (d + 20) * 0.5
+    if d <= 50: return 45 + d * 0.4
+    if d <= 100: return 65 + (d - 50) * 0.4
+    if d <= 200: return 85 + (d - 100) * 0.12
+    return 98
+
+def score_funding_rate(r):
+    if r is None: return 50
+    b = r * 10000
+    if b <= -5: return 10
+    if b <= 0: return 10 + (b + 5) * 6
+    if b <= 1: return 40 + b * 10
+    if b <= 3: return 50 + (b - 1) * 10
+    if b <= 8: return 70 + (b - 3) * 4
+    return clamp(90 + (b - 8) * 2)
+
+def score_dominance(d):
+    if d is None: return 50
+    if d >= 65: return 15
+    if d >= 55: return 15 + (65 - d) * 2.5
+    if d >= 48: return 40 + (55 - d) * 2.86
+    if d >= 40: return 60 + (48 - d) * 2.5
+    return clamp(80 + (40 - d) * 2)
 
 
-def score_price_deviation(deviation_pct):
-    """
-    价格相对200日均线的偏离度 → 子分
-    历史参考：
-    - 熊市底部：-30% ~ -50%（2018, 2022）
-    - 均线附近：0%（积累期）
-    - 牛市中段：+50% ~ +80%
-    - 牛市顶部：+100% ~ +200%（2017: +200%, 2021: +120%）
-    """
-    if deviation_pct is None:
-        return 50
-
-    if deviation_pct <= -40:
-        return 5
-    elif deviation_pct <= -20:
-        return 15 + (deviation_pct + 40) * (20 / 20)  # 15-35
-    elif deviation_pct <= 0:
-        return 35 + (deviation_pct + 20) * (10 / 20)   # 35-45
-    elif deviation_pct <= 50:
-        return 45 + deviation_pct * (20 / 50)           # 45-65
-    elif deviation_pct <= 100:
-        return 65 + (deviation_pct - 50) * (20 / 50)    # 65-85
-    elif deviation_pct <= 200:
-        return 85 + (deviation_pct - 100) * (12 / 100)  # 85-97
-    else:
-        return 98
+def get_status(s):
+    if s <= 25: return "cold"
+    if s <= 45: return "cool"
+    if s <= 60: return "neutral"
+    if s <= 80: return "warm"
+    return "hot"
 
 
-def score_funding_rate(rate):
-    """
-    资金费率 → 子分
-    正常值：0.01% (0.0001)
-    极端看多：>0.1% (0.001)
-    负值：看空情绪
-    """
-    if rate is None:
-        return 50
+SUMMARIES = {
+    "en": [
+        (15, "Multiple on-chain metrics are at historical lows. Extreme fear dominates. Historically, similar phases tend to be near cycle bottoms — but bottoms can persist for a long time."),
+        (30, "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains."),
+        (45, "The market is in a moderate zone with neutral indicators. Could be recovering from a bottom or consolidating sideways."),
+        (60, "Indicators suggest the market is mid-cycle. Sentiment is warming. Risk is manageable but worth monitoring closely."),
+        (75, "The market is entering a warm zone. Some indicators deviate from the mean. Historically, this comes with accelerating prices and accumulating risk. Consider your exit plan."),
+        (90, "Multiple indicators are in historically elevated territory. Sentiment is running hot. Similar signals have preceded cycle tops by weeks to months. Review your risk exposure."),
+        (100, "Indicators are near historical extremes. High vigilance warranted. Not a precise prediction, but risk is very elevated."),
+    ],
+    "zh": [
+        (15, "多项链上指标处于历史低位区域。市场极度恐慌，长期来看可能接近周期底部，但底部可能持续很久。"),
+        (30, "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"),
+        (45, "市场处于温和区域，各项指标趋于中性。可能正在从底部恢复，也可能处于横盘整理阶段。"),
+        (60, "多项指标显示市场处于周期中段。情绪逐步回暖，风险在可控范围内，但需持续关注变化趋势。"),
+        (75, "市场进入偏热区域，部分指标偏离均值。历史上类似阶段伴随加速上涨与风险累积。建议制定风控计划。"),
+        (90, "多项指标进入历史高位区域。类似信号出现后，顶部可能在数周到数月内到来。建议审视持仓风险。"),
+        (100, "多项指标处于历史极端值附近。需要高度警惕。这不是精确预测，但风险已经很高。"),
+    ]
+}
 
-    rate_pct = rate * 100  # 转成百分比，如 0.01 = 1%... 不对
-    # rate 本身就是小数，如 0.0001 = 0.01%
-    rate_bps = rate * 10000  # 转成基点，0.0001 → 1 bps = 0.01%
-
-    if rate_bps <= -5:
-        return 10
-    elif rate_bps <= 0:
-        return 10 + (rate_bps + 5) * (-6)  # 10-40
-    elif rate_bps <= 1:
-        return 40 + rate_bps * 10           # 40-50
-    elif rate_bps <= 3:
-        return 50 + (rate_bps - 1) * 10     # 50-70
-    elif rate_bps <= 8:
-        return 70 + (rate_bps - 3) * 4      # 70-90
-    else:
-        return clamp(90 + (rate_bps - 8) * 2)  # 90+
-
-
-def score_dominance(dom):
-    """
-    BTC 市场占比 → 子分
-    高占比（>60%）通常在周期早期/熊市 → 低分
-    低占比（<40%）通常在山寨季/周期末 → 高分
-    """
-    if dom is None:
-        return 50
-
-    if dom >= 65:
-        return 15
-    elif dom >= 55:
-        return 15 + (65 - dom) * (25 / 10)  # 15-40
-    elif dom >= 48:
-        return 40 + (55 - dom) * (20 / 7)   # 40-60
-    elif dom >= 40:
-        return 60 + (48 - dom) * (20 / 8)   # 60-80
-    else:
-        return clamp(80 + (40 - dom) * 2)    # 80+
+def get_summary(score, lang):
+    for threshold, text in SUMMARIES[lang]:
+        if score <= threshold:
+            return text
+    return SUMMARIES[lang][-1][1]
 
 
-def calculate_composite(fg_score, price_score, funding_score, dom_score):
-    """加权综合评分"""
-    weights = {
-        "fear_greed": 0.25,
-        "price_200dma": 0.35,
-        "funding_rate": 0.15,
-        "dominance": 0.25,
-    }
-    composite = (
-        fg_score * weights["fear_greed"]
-        + price_score * weights["price_200dma"]
-        + funding_score * weights["funding_rate"]
-        + dom_score * weights["dominance"]
-    )
-    return round(clamp(composite))
+def fmt_fg(v, lang):
+    if v is None: return "N/A"
+    bounds = [(25, ("Extreme Fear", "极度恐惧")), (40, ("Fear", "恐惧")), (60, ("Neutral", "中性")), (75, ("Greed", "贪婪")), (101, ("Extreme Greed", "极度贪婪"))]
+    idx = 0 if lang == "en" else 1
+    for t, labels in bounds:
+        if v < t: return f"{v}/100, {labels[idx]}"
+    return f"{v}/100"
 
+def fmt_dev(d, lang):
+    if d is None: return "N/A"
+    if lang == "en": return f"{abs(d):.0f}% {'above' if d >= 0 else 'below'} 200DMA"
+    return f"{'上方' if d >= 0 else '下方'} {abs(d):.0f}%"
 
-# ============================================
-# 输出
-# ============================================
+def fmt_fund(r, lang):
+    if r is None: return "N/A"
+    p = f"{r*100:.4f}%"
+    bounds = [(0, ("bearish", "偏空")), (0.0003, ("normal", "正常")), (0.0008, ("bullish", "偏多")), (999, ("extreme", "极度看多"))]
+    idx = 0 if lang == "en" else 1
+    for t, labels in bounds:
+        if r < t: return f"{p}, {labels[idx]}"
+    return p
 
-def get_status(sub_score):
-    if sub_score <= 25:
-        return "cold"
-    elif sub_score <= 45:
-        return "positive"
-    elif sub_score <= 60:
-        return "neutral"
-    elif sub_score <= 80:
-        return "warm"
-    else:
-        return "hot"
-
-
-def generate_summary(score):
-    if score <= 15:
-        return "多项链上指标处于历史低位区域。市场极度恐慌，长期来看可能接近周期底部。但底部可能持续很久，不建议试图精确抄底。"
-    elif score <= 30:
-        return "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
-    elif score <= 45:
-        return "市场处于温和区域，各项指标趋于中性。可能正在从底部恢复，也可能处于横盘整理阶段。"
-    elif score <= 60:
-        return "多项指标显示市场处于周期中段。情绪逐步回暖，风险在可控范围内，但需要持续关注变化趋势。"
-    elif score <= 75:
-        return "市场进入偏热区域，部分指标开始偏离均值。历史上类似阶段往往伴随加速上涨，但也意味着风险在累积。建议开始考虑风控计划。"
-    elif score <= 90:
-        return "多项指标进入历史高位区域，市场情绪偏向过热。历史上类似信号出现后，顶部可能在数周到数月内到来。建议认真审视持仓风险。"
-    else:
-        return "多项指标处于历史极端值附近。需要高度警惕，历史上类似阶段距离周期顶部往往不远。这不是精确预测，但风险已经很高。"
+def fmt_dom(d, lang):
+    if d is None: return "N/A"
+    if lang == "en":
+        if d > 58: return f"{d:.1f}%, high"
+        if d > 45: return f"{d:.1f}%, normal"
+        return f"{d:.1f}%, low (alt season)"
+    if d > 58: return f"{d:.1f}%，偏高"
+    if d > 45: return f"{d:.1f}%，正常"
+    return f"{d:.1f}%，偏低（山寨季）"
 
 
 def main():
     print("=" * 50)
-    print(f"BTC 周期评分 - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
+    print(f"BTC Cycle Score - {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}")
     print("=" * 50)
 
-    # 采集数据
-    print("\n[1/4] 获取恐惧贪婪指数...")
-    fg_value = get_fear_greed()
-    print(f"  → {fg_value}")
+    print("\n[1/4] Fear & Greed...")
+    fg = get_fear_greed()
+    print(f"  -> {fg}")
 
-    print("[2/4] 获取 BTC 价格和 200 日均线...")
-    price, ma_200, deviation = get_btc_price_and_200dma()
-    print(f"  → 价格: ${price:,.0f}, 200DMA: ${ma_200:,.0f}, 偏离: {deviation:+.1f}%" if price else "  → 获取失败")
+    print("[2/4] Price & 200DMA...")
+    price, ma200, dev = get_btc_price_and_200dma()
+    print(f"  -> ${price:,.0f}, dev: {dev:+.1f}%" if price else "  -> Failed")
 
-    # CoinGecko 有频率限制，等一下
     time.sleep(2)
 
-    print("[3/4] 获取资金费率...")
-    funding = get_funding_rate()
-    print(f"  → {funding:.6f} ({funding*100:.4f}%)" if funding is not None else "  → 获取失败")
+    print("[3/4] Funding Rate...")
+    fund = get_funding_rate()
+    print(f"  -> {fund:.6f}" if fund is not None else "  -> Failed")
 
-    print("[4/4] 获取 BTC 市场占比...")
-    dominance = get_btc_dominance()
-    print(f"  → {dominance:.1f}%" if dominance else "  → 获取失败")
+    print("[4/4] Dominance...")
+    dom = get_btc_dominance()
+    print(f"  -> {dom:.1f}%" if dom else "  -> Failed")
 
-    # 计算子分
-    fg_score = score_fear_greed(fg_value)
-    price_score = score_price_deviation(deviation)
-    funding_score = score_funding_rate(funding)
-    dom_score = score_dominance(dominance)
+    s_fg = score_fear_greed(fg)
+    s_pr = score_price_deviation(dev)
+    s_fu = score_funding_rate(fund)
+    s_do = score_dominance(dom)
+    composite = round(clamp(s_fg * 0.25 + s_pr * 0.35 + s_fu * 0.15 + s_do * 0.25))
 
-    print(f"\n子分: 恐惧贪婪={fg_score}, 价格偏离={price_score}, 资金费率={funding_score}, 占比={dom_score}")
+    print(f"\nScores: FG={s_fg} Price={s_pr} Fund={s_fu} Dom={s_do}")
+    print(f"Composite: {composite}/100")
 
-    # 综合评分
-    composite = calculate_composite(fg_score, price_score, funding_score, dom_score)
-    print(f"综合评分: {composite}/100")
-
-    # 生成输出
     now = datetime.now(timezone.utc)
+    indicators = []
+    if fg is not None:
+        indicators.append({"key": "fear_greed", "status": get_status(s_fg), "value": fg,
+            "en": {"name": "Fear & Greed", "note": fmt_fg(fg, "en")},
+            "zh": {"name": "恐惧贪婪", "note": fmt_fg(fg, "zh")}})
+    if dev is not None:
+        indicators.append({"key": "price_200dma", "status": get_status(s_pr), "value": round(dev, 1),
+            "en": {"name": "Price vs 200DMA", "note": fmt_dev(dev, "en")},
+            "zh": {"name": "价格vs均线", "note": fmt_dev(dev, "zh")}})
+    if fund is not None:
+        indicators.append({"key": "funding_rate", "status": get_status(s_fu), "value": fund,
+            "en": {"name": "Funding Rate", "note": fmt_fund(fund, "en")},
+            "zh": {"name": "资金费率", "note": fmt_fund(fund, "zh")}})
+    if dom is not None:
+        indicators.append({"key": "dominance", "status": get_status(s_do), "value": round(dom, 1),
+            "en": {"name": "BTC Dominance", "note": fmt_dom(dom, "en")},
+            "zh": {"name": "BTC占比", "note": fmt_dom(dom, "zh")}})
+
     output = {
         "score": composite,
         "lastUpdated": now.strftime("%Y-%m-%d"),
-        "lastUpdatedFull": now.isoformat(),
-        "summary": generate_summary(composite),
-        "indicators": [
-            {
-                "name": "恐惧贪婪指数",
-                "value": fg_value,
-                "sub_score": fg_score,
-                "status": get_status(fg_score),
-                "note": (
-                    f"{fg_value}/100，" + (
-                        "极度恐惧" if fg_value < 25
-                        else "恐惧" if fg_value < 40
-                        else "中性" if fg_value < 60
-                        else "贪婪" if fg_value < 75
-                        else "极度贪婪"
-                    ) if fg_value is not None else "数据获取失败"
-                )
-            },
-            {
-                "name": "价格 vs 200日均线",
-                "value": round(deviation, 1) if deviation else None,
-                "sub_score": price_score,
-                "status": get_status(price_score),
-                "note": (
-                    f"价格在200日均线{'上方' if deviation >= 0 else '下方'} {abs(deviation):.0f}%"
-                    if deviation is not None else "数据获取失败"
-                )
-            },
-            {
-                "name": "永续合约资金费率",
-                "value": funding,
-                "sub_score": funding_score,
-                "status": get_status(funding_score),
-                "note": (
-                    f"{funding*100:.4f}%"
-                    + ("，偏空" if funding and funding < 0
-                       else "，正常" if funding and funding < 0.0003
-                       else "，偏多" if funding and funding < 0.0008
-                       else "，极度看多" if funding else "")
-                    if funding is not None else "数据获取失败"
-                )
-            },
-            {
-                "name": "BTC 市场占比",
-                "value": round(dominance, 1) if dominance else None,
-                "sub_score": dom_score,
-                "status": get_status(dom_score),
-                "note": (
-                    f"{dominance:.1f}%"
-                    + ("，占比较高（早期/熊市特征）" if dominance > 58
-                       else "，正常区间" if dominance > 45
-                       else "，偏低（山寨季特征）")
-                    if dominance else "数据获取失败"
-                )
-            }
-        ],
+        "summary": {"en": get_summary(composite, "en"), "zh": get_summary(composite, "zh")},
+        "indicators": indicators,
         "raw": {
-            "fear_greed": fg_value,
             "btc_price": round(price) if price else None,
-            "ma_200": round(ma_200) if ma_200 else None,
-            "deviation_pct": round(deviation, 2) if deviation else None,
-            "funding_rate": funding,
-            "btc_dominance": round(dominance, 2) if dominance else None,
+            "ma_200": round(ma200) if ma200 else None,
+            "fear_greed": fg,
+            "deviation_pct": round(dev, 2) if dev else None,
+            "funding_rate": fund,
+            "btc_dominance": round(dom, 2) if dom else None,
         }
     }
 
-    # 写入 data.json
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-
-    print(f"\n✅ data.json 已更新 (score={composite})")
-
+    print(f"\n✅ data.json updated (score={composite})")
 
 if __name__ == "__main__":
     main()
