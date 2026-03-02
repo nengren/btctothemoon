@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTC to the Moon - BTC 周期参考坐标</title>
+<meta name="description" content="基于链上数据的BTC周期参考坐标，帮你理解市场当前位置。从零开始的比特币购买指南。">
+<meta property="og:title" content="BTC 周期坐标 - btctothemoon.uk">
+<meta property="og:description" content="基于 MVRV、均线、资金费率等链上数据，标注 BTC 在历史周期中的位置。">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAFA;
+    --card: #FFFFFF;
+    --text: #1D1D1F;
+    --text2: #6E6E73;
+    --text3: #AEAEB2;
+    --border: rgba(0,0,0,0.06);
+    --orange: #F7931A;
+    --orange-light: #FFF8F0;
+    --green: #34C759;
+    --green-light: #F0FFF4;
+    --red: #FF3B30;
+    --red-light: #FFF5F5;
+    --blue: #007AFF;
+    --blue-light: #F0F7FF;
+    --yellow: #F0B90B;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --radius: 16px;
+    --radius-sm: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body {
+    min-height: 100vh; background: var(--bg); color: var(--text);
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6; overflow-x: hidden;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,250,0.8);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 980px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px; padding: 0 24px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: linear-gradient(135deg, #F7931A, #F5B041);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: 0 2px 8px rgba(247,147,26,0.3);
+  }
+  .logo-text { font-weight: 700; font-size: 15px; color: var(--text); letter-spacing: -0.3px; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-btn {
+    background: transparent; border: none; color: var(--text2);
+    padding: 6px 14px; border-radius: 8px; cursor: pointer;
+    font-size: 13px; font-weight: 500; transition: all 0.2s; font-family: inherit;
+  }
+  .nav-btn:hover { background: rgba(0,0,0,0.04); color: var(--text); }
+  .nav-btn.active { background: rgba(0,0,0,0.06); color: var(--text); }
+
+  section { max-width: 980px; margin: 0 auto; padding: 80px 24px; }
+  .section-center { text-align: center; margin-bottom: 56px; }
+  h1 { font-size: clamp(32px,5vw,52px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; }
+  h2 { font-size: clamp(28px,4vw,40px); font-weight: 700; letter-spacing: -1px; }
+  .subtitle { color: var(--text2); font-size: clamp(15px,2vw,18px); max-width: 560px; margin: 16px auto 0; line-height: 1.65; }
+  .overline {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 12px;
+  }
+
+  /* Thermometer */
+  .thermo-hero { background: linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 100%); padding-bottom: 60px; }
+  .thermo-card {
+    max-width: 480px; margin: 0 auto; padding: 44px 36px 36px;
+    background: white; border-radius: 24px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .gauge-container { text-align: center; }
+  .gauge-svg { width: 100%; max-width: 340px; margin: 0 auto; display: block; }
+  .gauge-label {
+    display: inline-block; padding: 6px 18px; border-radius: 20px;
+    font-size: 14px; font-weight: 600; margin-top: 4px;
+  }
+  .thermo-summary {
+    text-align: center; color: var(--text2); font-size: 15px; line-height: 1.7;
+    margin-top: 28px; padding: 16px 20px; background: var(--bg); border-radius: var(--radius-sm);
+  }
+  .thermo-date {
+    color: var(--text3); font-size: 12px; text-align: center; margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .thermo-loading {
+    text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px;
+  }
+  .thermo-loading .spinner {
+    width: 32px; height: 32px; border: 3px solid var(--border);
+    border-top-color: var(--orange); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* How cards */
+  .how-grid {
+    max-width: 480px; margin: 28px auto 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .how-card {
+    padding: 18px; background: white;
+    border-radius: var(--radius-sm); border: 1px solid var(--border);
+  }
+  .how-card .icon { font-size: 24px; margin-bottom: 8px; }
+  .how-card .title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .how-card .desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+
+  /* Indicators */
+  .indicators-wrap { max-width: 480px; margin: 28px auto 0; display: flex; flex-direction: column; gap: 8px; }
+  .ind-label { font-size: 12px; color: var(--text3); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .ind-item {
+    display: flex; align-items: center; padding: 14px 18px; background: white;
+    border-radius: var(--radius-sm); border: 1px solid var(--border); transition: box-shadow 0.2s;
+  }
+  .ind-item:hover { box-shadow: var(--shadow-sm); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 14px; flex-shrink: 0; }
+  .dot.cold { background: #007AFF; } .dot.positive { background: #34C759; }
+  .dot.neutral { background: #FF9500; } .dot.warm { background: #FF6B35; }
+  .dot.hot { background: #FF3B30; }
+  .ind-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .ind-note { font-size: 12px; color: var(--text3); margin-top: 1px; }
+
+  .disclaimer {
+    max-width: 480px; margin: 28px auto 0; padding: 14px 18px;
+    background: var(--orange-light); border-radius: var(--radius-sm);
+    border: 1px solid rgba(247,147,26,0.12); font-size: 12px; color: var(--text2); line-height: 1.6;
+  }
+
+  /* Guide */
+  .guide-section { background: white; }
+  .steps { max-width: 640px; margin: 0 auto; }
+  .step {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 10px; overflow: hidden; cursor: pointer;
+    transition: all 0.25s ease; background: white;
+  }
+  .step:hover { border-color: rgba(0,0,0,0.1); box-shadow: var(--shadow-sm); }
+  .step.active { border-color: rgba(247,147,26,0.25); box-shadow: var(--shadow-md); }
+  .step-header { display: flex; align-items: center; padding: 18px 22px; gap: 14px; }
+  .step-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--orange);
+    font-weight: 600; background: var(--orange-light); padding: 4px 8px; border-radius: 6px;
+  }
+  .step-icon { font-size: 22px; }
+  .step-title { flex: 1; font-size: 15px; font-weight: 600; color: var(--text); }
+  .step-arrow { color: var(--text3); font-size: 16px; transition: transform 0.3s; }
+  .step.active .step-arrow { transform: rotate(180deg); }
+  .step-body { display: none; padding: 0 22px 22px; }
+  .step.active .step-body { display: block; animation: fadeSlide 0.3s ease; }
+  .step-content { color: var(--text2); font-size: 15px; line-height: 1.8; margin-bottom: 14px; }
+  .step-tip {
+    padding: 12px 16px; background: var(--green-light); border-radius: 10px;
+    border-left: 3px solid var(--green); font-size: 13px; color: #2D6A4F; line-height: 1.6;
+  }
+  .step-tip strong { color: var(--green); }
+
+  .btn-binance {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 16px; padding: 11px 24px; background: var(--yellow);
+    color: #1a1a1a; border-radius: 10px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
+    font-family: inherit; box-shadow: 0 2px 12px rgba(240,185,11,0.3);
+  }
+  .btn-binance:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(240,185,11,0.35); }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px;
+    background: linear-gradient(135deg, #F7931A, #F5B041); color: white;
+    border-radius: 14px; font-size: 17px; font-weight: 700; text-decoration: none;
+    box-shadow: 0 6px 30px rgba(247,147,26,0.25); transition: all 0.25s; letter-spacing: -0.2px;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(247,147,26,0.35); }
+
+  .mistakes { max-width: 640px; margin: 56px auto 0; }
+  .mistakes-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; color: var(--red); display: flex; align-items: center; gap: 8px; }
+  .mistakes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+  .mistake-card {
+    padding: 18px 20px; background: var(--red-light);
+    border: 1px solid rgba(255,59,48,0.08); border-radius: var(--radius-sm);
+  }
+  .mistake-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .mistake-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  .final-cta {
+    max-width: 640px; margin: 56px auto 0; text-align: center; padding: 48px 36px;
+    background: linear-gradient(135deg, #FFF9F0, #FFF4E6);
+    border: 1px solid rgba(247,147,26,0.12); border-radius: 24px;
+  }
+  .final-cta h3 { font-size: 24px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+  .final-cta p { color: var(--text2); font-size: 15px; margin-bottom: 28px; line-height: 1.65; }
+  .ref-note { margin-top: 14px; font-size: 12px; color: var(--text3); }
+
+  footer {
+    max-width: 980px; margin: 0 auto; padding: 40px 24px;
+    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .footer-logo { display: flex; align-items: center; gap: 8px; }
+  .footer-logo span { font-size: 14px; color: var(--text3); font-weight: 500; }
+  .footer-disclaimer { color: var(--text3); font-size: 12px; text-align: center; line-height: 1.6; max-width: 440px; }
+  .footer-copy { color: var(--text3); font-size: 11px; opacity: 0.6; font-family: 'JetBrains Mono', monospace; }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 520px) {
+    section { padding: 56px 16px; }
+    .thermo-card { padding: 32px 24px 28px; border-radius: 20px; }
+    .final-cta { padding: 36px 24px; }
+    .step-header { padding: 16px 16px; gap: 10px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .nav-btn { padding: 6px 10px; font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">₿</div>
+      <span class="logo-text">BTC to the Moon</span>
+    </a>
+    <div class="nav-links">
+      <button class="nav-btn active" onclick="scrollTo_('thermometer',this)">周期坐标</button>
+      <button class="nav-btn" onclick="scrollTo_('guide',this)">新手指南</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- THERMOMETER -->
+  <section id="thermometer" class="thermo-hero">
+    <div class="section-center">
+      <div class="overline" style="background:var(--orange-light);color:var(--orange);">每日自动更新</div>
+      <h1>BTC 周期坐标</h1>
+      <p class="subtitle">基于链上数据与市场指标，标注当前 BTC 在历史周期中的大致位置。不预测价格，只提供参考。</p>
+    </div>
+
+    <!-- Loading state -->
+    <div class="thermo-card" id="thermo-card">
+      <div class="thermo-loading" id="thermo-loading">
+        <div class="spinner"></div>
+        正在获取最新数据...
+      </div>
+
+      <div id="thermo-content" style="display:none;">
+        <div class="gauge-container">
+          <svg viewBox="0 0 300 175" class="gauge-svg">
+            <defs>
+              <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#007AFF"/>
+                <stop offset="20%" stop-color="#34C759"/>
+                <stop offset="45%" stop-color="#FF9500"/>
+                <stop offset="70%" stop-color="#FF6B35"/>
+                <stop offset="100%" stop-color="#FF3B30"/>
+              </linearGradient>
+            </defs>
+            <path d="M 30 155 A 120 120 0 0 1 270 155" fill="none" stroke="#F2F2F7" stroke-width="22" stroke-linecap="round"/>
+            <path d="M 30 155 A 120 120 0 0 1 270 155" fill="none" stroke="url(#arcGrad)" stroke-width="22" stroke-linecap="round" opacity="0.85"/>
+            <g id="scale-marks"></g>
+            <g id="needle" style="transform-origin:150px 155px;transition:transform 1.8s cubic-bezier(0.34,1.56,0.64,1)">
+              <line x1="150" y1="155" x2="150" y2="52" stroke="#1D1D1F" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="150" cy="155" r="7" fill="#1D1D1F"/>
+              <circle cx="150" cy="155" r="3" fill="white"/>
+            </g>
+            <text x="150" y="138" fill="#1D1D1F" font-size="48" font-weight="800" text-anchor="middle" font-family="'Inter',sans-serif" id="score-text">0</text>
+          </svg>
+          <div id="phase-label" class="gauge-label"></div>
+        </div>
+        <p class="thermo-summary" id="thermo-summary"></p>
+        <div class="thermo-date" id="thermo-date"></div>
+      </div>
+    </div>
+
+    <!-- Method cards -->
+    <div class="how-grid">
+      <div class="how-card"><div class="icon">📐</div><div class="title">MVRV / 均线偏离</div><div class="desc">链上成本与市场价的偏离度，极端值对应历史顶底</div></div>
+      <div class="how-card"><div class="icon">💰</div><div class="title">资金流向</div><div class="desc">稳定币市值与交易所余额变化，观察真金白银</div></div>
+      <div class="how-card"><div class="icon">📈</div><div class="title">资金费率</div><div class="desc">永续合约多空博弈，反映杠杆情绪</div></div>
+      <div class="how-card"><div class="icon">🌡️</div><div class="title">市场情绪</div><div class="desc">恐惧贪婪指数、BTC市场占比综合判断</div></div>
+    </div>
+
+    <!-- Indicators (dynamic) -->
+    <div class="indicators-wrap">
+      <div class="ind-label">当前指标快照</div>
+      <div id="indicator-list"></div>
+    </div>
+
+    <div class="disclaimer">
+      ⚠️ 评分基于公开链上数据与市场指标的历史统计规律，不代表对未来的预测。历史不会简单重复。加密货币投资有极高风险，请独立判断。
+    </div>
+  </section>
+
+  <div style="height:1px;background:var(--border);max-width:120px;margin:0 auto;"></div>
+
+  <!-- GUIDE -->
+  <section id="guide" class="guide-section">
+    <div class="section-center">
+      <div class="overline" style="background:var(--green-light);color:var(--green);">从零开始</div>
+      <h2>30分钟拥有第一笔 BTC</h2>
+      <p class="subtitle" style="max-width:480px">6个清晰步骤，每步附实操提示。专为完全没接触过加密货币的人准备。</p>
+    </div>
+    <div class="steps" id="steps-container"></div>
+    <div class="mistakes">
+      <div class="mistakes-title"><span>⚠️</span> 新手必须避开的坑</div>
+      <div class="mistakes-grid" id="mistakes-grid"></div>
+    </div>
+    <div class="final-cta">
+      <h3>准备好了？</h3>
+      <p>通过下方链接注册币安，享受手续费返佣优惠。<br>全球最大加密货币交易所，支持中文，新手友好。</p>
+      <a href="https://www.binance.com/register?ref=61071965" target="_blank" rel="noopener noreferrer" class="btn-primary">注册币安，开始投资 →</a>
+      <div class="ref-note">通过邀请链接注册 · 手续费返佣</div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">
+      <div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#F7931A,#F5B041);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;">₿</div>
+      <span>btctothemoon.uk</span>
+    </div>
+    <p class="footer-disclaimer">本站不提供投资建议。加密货币投资有高风险，可能导致本金全部损失。请在充分了解风险后自行决策。</p>
+    <p class="footer-copy">© 2026 btctothemoon.uk</p>
+  </footer>
+</main>
+
+<script>
+// ============================================
+// CONFIG
+// ============================================
+const BINANCE_REF = "https://www.binance.com/register?ref=61071965";
+
+// data.json 路径 - 与 index.html 同目录
+const DATA_URL = "./data.json";
+
+// 如果 data.json 加载失败，使用这个兜底数据
+const FALLBACK_DATA = {
+  score: 50,
+  lastUpdated: "--",
+  summary: "数据加载中，请稍后刷新页面。",
+  indicators: [
+    { name: "恐惧贪婪指数", status: "neutral", note: "加载中..." },
+    { name: "价格 vs 200日均线", status: "neutral", note: "加载中..." },
+    { name: "永续合约资金费率", status: "neutral", note: "加载中..." },
+    { name: "BTC 市场占比", status: "neutral", note: "加载中..." }
+  ]
+};
+
+const GUIDE_STEPS = [
+  { num:"01", title:"理解比特币是什么", icon:"💡",
+    content:"比特币是一种去中心化的数字货币，总量 2100 万枚，不可增发。可以理解为"数字黄金"——稀缺、可全球转账、不受单一政府控制。你不需要买一整个 BTC，可以买 0.001 个甚至更少。",
+    tip:"比特币的核心价值在于稀缺性和去中心化。理解这两点就够了，不需要搞懂所有技术细节。" },
+  { num:"02", title:"注册交易所", icon:"🏦",
+    content:"交易所是你买卖加密货币的平台。币安 (Binance) 是全球最大的加密货币交易所，支持中文界面和多种入金方式，对新手非常友好。",
+    tip:"注册后第一件事：开启谷歌验证器 (2FA)，这是保护账户安全最重要的一步。", hasCTA:true },
+  { num:"03", title:"入金：把钱存进去", icon:"💳",
+    content:"最常用的方式是 P2P 交易：在币安的 C2C 页面，用银行卡向其他用户购买 USDT（锚定美元的稳定币），平台做担保，类似闲鱼交易。拿到 USDT 后就可以买 BTC 了。",
+    tip:"第一次建议小额尝试，比如 100-500 元人民币，熟悉流程后再加大金额。" },
+  { num:"04", title:"买入第一笔 BTC", icon:"₿",
+    content:"在"现货交易"搜索 BTC/USDT，选择"市价单"直接买入。市价单按当前价格立即成交，操作最简单。",
+    tip:"永远不要 all-in。只用"亏完也不心疼"的钱投资加密货币。" },
+  { num:"05", title:"安全存储", icon:"🔐",
+    content:"小额资金放交易所没问题。大额资金建议转到硬件钱包（Ledger、Trezor），自己保管私钥。",
+    tip:"助记词（12个英文单词）= 你的全部资产。手抄纸上，锁保险箱。永远不要截图、拍照、或告诉任何人。" },
+  { num:"06", title:"理解周期，控制情绪", icon:"📊",
+    content:"BTC 约每 4 年一个牛熊周期。大部分人亏钱不是因为买错了，而是牛市顶部不舍得卖。上面的"周期坐标"就是帮你建立对当前位置的基本认知。",
+    tip:"目标不是抓住每一波涨幅，而是每轮周期结束时，你的钱比开始时多。" }
+];
+const MISTAKES = [
+  { icon:"🚫", title:"远离合约杠杆", desc:"新手玩合约，99% 亏光。这不是投资，是赌博。" },
+  { icon:"🚫", title:"不要追涨杀跌", desc:"暴涨时买入、暴跌时卖出——最经典的亏钱方式。" },
+  { icon:"🚫", title:"不信任何"稳赚"承诺", desc:"承诺保本保收益的都是骗子，没有例外。" },
+  { icon:"🚫", title:"只投亏得起的钱", desc:"加密市场一天能跌 30%。只用不影响生活的闲钱。" }
+];
+
+// ============================================
+// GAUGE
+// ============================================
+function getColor(s) {
+  if(s<=15) return "#007AFF";
+  if(s<=30) return "#5AC8FA";
+  if(s<=45) return "#34C759";
+  if(s<=60) return "#FF9500";
+  if(s<=75) return "#FF6B35";
+  if(s<=90) return "#FF3B30";
+  return "#FF2D55";
+}
+function getPhase(s) {
+  if(s<=15) return "极冷 · 深度熊市";
+  if(s<=30) return "偏冷 · 底部区域";
+  if(s<=45) return "温和 · 积累阶段";
+  if(s<=60) return "中性 · 上升通道";
+  if(s<=75) return "偏热 · 加速阶段";
+  if(s<=90) return "过热 · 高度警惕";
+  return "极热 · 历史极值";
+}
+
+function renderGauge(score) {
+  const color = getColor(score);
+  const rotation = (score / 100) * 180 - 90;
+
+  // Scale labels
+  const marks = document.getElementById('scale-marks');
+  marks.innerHTML = '';
+  [0,25,50,75,100].forEach(val => {
+    const angle = ((val/100)*180-180)*(Math.PI/180);
+    const tx = 150 + 152*Math.cos(angle);
+    const ty = 155 + 152*Math.sin(angle);
+    marks.innerHTML += `<text x="${tx}" y="${ty}" fill="#AEAEB2" font-size="11" text-anchor="middle" dominant-baseline="middle" font-family="'JetBrains Mono',monospace" font-weight="500">${val}</text>`;
+  });
+
+  // Animate needle
+  setTimeout(() => {
+    document.getElementById('needle').style.transform = `rotate(${rotation}deg)`;
+    document.getElementById('score-text').textContent = score;
+  }, 200);
+
+  // Phase label
+  const label = document.getElementById('phase-label');
+  label.textContent = getPhase(score);
+  label.style.backgroundColor = color + '15';
+  label.style.border = `1px solid ${color}30`;
+  label.style.color = color;
+}
+
+function renderIndicators(indicators) {
+  const c = document.getElementById('indicator-list');
+  c.innerHTML = '';
+  indicators.forEach(ind => {
+    c.innerHTML += `
+      <div class="ind-item">
+        <span class="dot ${ind.status}"></span>
+        <div style="flex:1">
+          <div class="ind-name">${ind.name}</div>
+          <div class="ind-note">${ind.note}</div>
+        </div>
+      </div>`;
+  });
+}
+
+function renderThermometer(data) {
+  document.getElementById('thermo-loading').style.display = 'none';
+  document.getElementById('thermo-content').style.display = 'block';
+
+  renderGauge(data.score);
+  document.getElementById('thermo-summary').textContent = data.summary;
+  document.getElementById('thermo-date').textContent = '更新于 ' + data.lastUpdated;
+  renderIndicators(data.indicators);
+}
+
+// ============================================
+// GUIDE
+// ============================================
+function initSteps() {
+  const c = document.getElementById('steps-container');
+  GUIDE_STEPS.forEach((step, i) => {
+    const cta = step.hasCTA ? `<a href="${BINANCE_REF}" target="_blank" rel="noopener noreferrer" class="btn-binance" onclick="event.stopPropagation()">注册币安账户 →</a>` : '';
+    c.innerHTML += `
+      <div class="step" id="step-${i}" onclick="toggleStep(${i})">
+        <div class="step-header">
+          <span class="step-num">${step.num}</span>
+          <span class="step-icon">${step.icon}</span>
+          <span class="step-title">${step.title}</span>
+          <span class="step-arrow">▾</span>
+        </div>
+        <div class="step-body">
+          <p class="step-content">${step.content}</p>
+          <div class="step-tip">💡 <strong>提示：</strong>${step.tip}</div>
+          ${cta}
+        </div>
+      </div>`;
+  });
+}
+function initMistakes() {
+  const c = document.getElementById('mistakes-grid');
+  MISTAKES.forEach(m => {
+    c.innerHTML += `<div class="mistake-card"><div class="mistake-title">${m.icon} ${m.title}</div><div class="mistake-desc">${m.desc}</div></div>`;
+  });
+}
+function toggleStep(i) {
+  const el = document.getElementById('step-'+i);
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  if (!wasActive) el.classList.add('active');
+}
+function scrollTo_(id, btn) {
+  document.getElementById(id).scrollIntoView({ behavior:'smooth' });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+// ============================================
+// INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', async () => {
+  initSteps();
+  initMistakes();
+
+  // 加载温度计数据
+  try {
+    const resp = await fetch(DATA_URL);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    renderThermometer(data);
+  } catch (e) {
+    console.warn('data.json 加载失败，使用兜底数据:', e);
+    renderThermometer(FALLBACK_DATA);
+  }
+});
+</script>
+
+</body>
+</html>

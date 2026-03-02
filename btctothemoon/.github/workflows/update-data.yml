@@ -1,0 +1,35 @@
+name: Update BTC Cycle Score
+
+on:
+  schedule:
+    # 每天 UTC 08:00 运行（北京时间 16:00）
+    - cron: '0 8 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  update-score:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write  # 需要写权限来 commit data.json
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run scoring script
+        run: python scripts/update_score.py
+
+      - name: Commit updated data.json
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "BTC Score Bot"
+          git add data.json
+          # 只在 data.json 有变化时 commit
+          git diff --staged --quiet || git commit -m "📊 Update cycle score $(date -u +%Y-%m-%d)"
+          git push
