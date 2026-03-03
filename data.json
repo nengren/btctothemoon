@@ -1,44 +1,57 @@
 {
-  "score": 27,
-  "lastUpdated": "2026-03-02",
-  "lastUpdatedFull": "2026-03-02T08:36:53.808082+00:00",
-  "summary": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。",
+  "score": 29,
+  "lastUpdated": "2026-03-03",
+  "summary": {
+    "en": "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains.",
+    "zh": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
+  },
   "indicators": [
     {
-      "name": "恐惧贪婪指数",
-      "value": 10,
-      "sub_score": 10,
+      "key": "fear_greed",
       "status": "cold",
-      "note": "10/100，极度恐惧"
+      "value": 14,
+      "en": {
+        "name": "Fear & Greed",
+        "note": "14/100, Extreme Fear"
+      },
+      "zh": {
+        "name": "恐惧贪婪",
+        "note": "14/100, 极度恐惧"
+      }
     },
     {
-      "name": "价格 vs 200日均线",
-      "value": -32.0,
-      "sub_score": 22.981572950730666,
-      "status": "cold",
-      "note": "价格在200日均线下方 32%"
+      "key": "price_200dma",
+      "status": "cool",
+      "value": -29.1,
+      "en": {
+        "name": "Price vs 200DMA",
+        "note": "29% below 200DMA"
+      },
+      "zh": {
+        "name": "价格vs均线",
+        "note": "下方 29%"
+      }
     },
     {
-      "name": "永续合约资金费率",
-      "value": null,
-      "sub_score": 50,
-      "status": "neutral",
-      "note": "数据获取失败"
-    },
-    {
-      "name": "BTC 市场占比",
-      "value": 56.2,
-      "sub_score": 37.055166569451,
-      "status": "positive",
-      "note": "56.2%，正常区间"
+      "key": "dominance",
+      "status": "cool",
+      "value": 56.6,
+      "en": {
+        "name": "BTC Dominance",
+        "note": "56.6%, normal"
+      },
+      "zh": {
+        "name": "BTC占比",
+        "note": "56.6%，正常"
+      }
     }
   ],
   "raw": {
-    "fear_greed": 10,
-    "btc_price": 65817,
-    "ma_200": 96816,
-    "deviation_pct": -32.02,
+    "btc_price": 68488,
+    "ma_200": 96587,
+    "fear_greed": 14,
+    "deviation_pct": -29.09,
     "funding_rate": null,
-    "btc_dominance": 56.18
+    "btc_dominance": 56.59
   }
 }
