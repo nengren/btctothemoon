@@ -10,6 +10,8 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="./favicon.ico" type="image/x-icon">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#F7931A">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FAFAFA;--card:#FFF;--text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;--border:rgba(0,0,0,.06);--orange:#F7931A;--orange-light:#FFF8F0;--green:#34C759;--green-light:#F0FFF4;--red:#FF3B30;--red-light:#FFF5F5;--blue:#007AFF;--yellow:#F0B90B;--shadow-sm:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 20px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);--r:16px;--rs:12px}
@@ -34,7 +36,6 @@ h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px}
 .sub{color:var(--text2);font-size:clamp(15px,2vw,18px);max-width:560px;margin:14px auto 0;line-height:1.65}
 .tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.5px;margin-bottom:12px}
 
-/* Gauge card */
 .thermo-card{max-width:480px;margin:0 auto;padding:40px 36px 32px;background:#fff;border-radius:24px;border:1px solid rgba(0,0,0,.06);box-shadow:0 8px 40px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04)}
 .gauge-svg{width:100%;max-width:320px;margin:0 auto;display:block}
 .phase-label{display:inline-block;padding:6px 18px;border-radius:20px;font-size:14px;font-weight:600;margin-top:8px}
@@ -45,19 +46,38 @@ h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px}
 .summary-box{text-align:center;color:var(--text2);font-size:14px;line-height:1.7;margin-top:20px;padding:14px 18px;background:var(--bg);border-radius:var(--rs)}
 .update-time{color:var(--text3);font-size:11px;text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace}
 
-/* Compact indicators */
 .ind-row{max-width:480px;margin:20px auto 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .ind-chip{display:flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border-radius:20px;border:1px solid var(--border);font-size:12px;white-space:nowrap}
 .ind-chip .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .dot.cold{background:#007AFF}.dot.cool{background:#5AC8FA}.dot.neutral{background:#FF9500}.dot.warm{background:#FF6B35}.dot.hot{background:#FF3B30}
 .ind-chip .name{color:var(--text2);font-weight:500}
 
+/* Dynamic CTA below card */
+.score-cta{max-width:480px;margin:20px auto 0;text-align:center;padding:16px 20px;background:linear-gradient(135deg,#FFF9F0,#FFF4E6);border:1px solid rgba(247,147,26,.15);border-radius:var(--r)}
+.score-cta p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+.score-cta a{display:inline-block;padding:8px 20px;background:var(--orange);color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:.2s}
+.score-cta a:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(247,147,26,.3)}
+
+/* Share button row */
+.share-row{max-width:480px;margin:16px auto 0;display:flex;gap:8px;justify-content:center}
+.share-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;background:#fff;border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:.2s;font-family:inherit}
+.share-btn:hover{border-color:var(--orange);color:var(--orange)}
+.share-btn svg{width:14px;height:14px}
+.share-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#1D1D1F;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s}
+.share-toast.show{opacity:1}
+
+/* PWA install banner */
+.install-banner{display:none;max-width:480px;margin:20px auto 0;padding:14px 18px;background:#fff;border:1px solid var(--border);border-radius:var(--r);text-align:center;box-shadow:var(--shadow-sm)}
+.install-banner p{font-size:13px;color:var(--text2);margin-bottom:10px}
+.install-banner button{padding:8px 20px;background:var(--text);color:#fff;border:0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}
+.install-banner button:hover{opacity:.85}
+.install-banner .dismiss{background:0;color:var(--text3);margin-left:8px;padding:8px 12px}
+
 .disclaimer{max-width:480px;margin:24px auto 0;padding:12px 16px;background:var(--orange-light);border-radius:var(--rs);border:1px solid rgba(247,147,26,.12);font-size:11px;color:var(--text2);line-height:1.6;text-align:center}
 .loading{text-align:center;padding:60px 20px;color:var(--text3)}
 .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Guide */
 .guide-section{background:#fff}
 .steps{max-width:640px;margin:0 auto}
 .step{border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden;cursor:pointer;transition:.25s;background:#fff}
@@ -86,6 +106,7 @@ h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px}
 .cta-box h3{font-size:24px;font-weight:700;margin-bottom:10px;letter-spacing:-.5px}
 .cta-box p{color:var(--text2);font-size:15px;margin-bottom:24px;line-height:1.65}
 .cta-note{margin-top:14px;font-size:12px;color:var(--text3)}
+.cta-disclosure{margin-top:10px;font-size:11px;color:var(--text3);line-height:1.5;font-style:italic}
 
 footer{max-width:980px;margin:0 auto;padding:40px 24px;border-top:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
 footer .copy{color:var(--text3);font-size:11px;opacity:.6;font-family:'JetBrains Mono',monospace}
@@ -149,7 +170,32 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
     </div>
   </div>
 
-  <div class="disclaimer" data-i18n="disclaimer">Scores are based on public on-chain data and historical statistical patterns — not predictions. Crypto investment carries extreme risk. Always do your own research.</div>
+  <!-- Dynamic CTA based on score -->
+  <div class="score-cta" id="score-cta" style="display:none">
+    <p id="score-cta-text"></p>
+    <a id="score-cta-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+
+  <!-- Share buttons -->
+  <div class="share-row" id="share-row" style="display:none">
+    <button class="share-btn" onclick="shareScore('twitter')">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <span data-i18n="share_x">Share</span>
+    </button>
+    <button class="share-btn" onclick="shareScore('copy')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      <span data-i18n="share_copy">Copy Link</span>
+    </button>
+  </div>
+
+  <!-- PWA install banner -->
+  <div class="install-banner" id="install-banner">
+    <p data-i18n="install_text">Add to Home Screen for daily score updates</p>
+    <button onclick="installPWA()" data-i18n="install_btn">Add to Home Screen</button>
+    <button class="dismiss" onclick="dismissInstall()" data-i18n="install_dismiss">Later</button>
+  </div>
+
+  <div class="disclaimer" data-i18n="disclaimer">Scores are based on public on-chain data and historical statistical patterns — not predictions. Crypto carries extreme risk. DYOR.</div>
 </section>
 
 <div style="height:1px;background:var(--border);max-width:120px;margin:0 auto"></div>
@@ -167,9 +213,10 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   </div>
   <div class="cta-box">
     <h3 data-i18n="cta_title">Ready to Start?</h3>
-    <p data-i18n="cta_sub">Register via the link below and get 10% back on every spot trading fee. Binance is the world's largest crypto exchange — trusted by 300M+ users.</p>
+    <p data-i18n="cta_sub">Register via the link below and get 10% back on every trading fee. Binance is the world's largest crypto exchange — trusted by 200M+ users.</p>
     <a id="main-cta" href="https://accounts.binance.com/en/register?ref=GXWQ97QK" target="_blank" rel="noopener noreferrer" class="btn-p" data-i18n="cta_btn">Register & Get 10% Fee Rebate →</a>
     <div class="cta-note" data-i18n="cta_note">Referral link · Permanent 10% kickback on all trades</div>
+    <div class="cta-disclosure" data-i18n="cta_disclosure">Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.</div>
   </div>
 </section>
 
@@ -179,6 +226,9 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   <p class="copy">© 2026 btctothemoon.uk</p>
 </footer>
 </main>
+
+<!-- Share toast -->
+<div class="share-toast" id="share-toast"></div>
 
 <script>
 // ===================== i18n =====================
@@ -199,16 +249,29 @@ en: {
   guide_sub: "6 clear steps with practical tips. Designed for complete beginners.",
   warn_title: "⚠️ Mistakes to Avoid",
   cta_title: "Ready to Start?",
-  cta_sub: "Register via the link below and get 10% back on every spot trading fee. Binance is the world's largest crypto exchange — trusted by 300M+ users.",
-  cta_btn: "Register & Get 10% Fee Rebate →", cta_note: "Referral link · Permanent 10% kickback on all trades",
+  cta_sub: "Register via the link below and get 10% back on every trading fee. Binance is the world's largest crypto exchange — trusted by 200M+ users.",
+  cta_btn: "Register & Get 10% Fee Rebate →",
+  cta_note: "Save ~$10 on every $10,000 traded. Permanent, no expiry.",
+  cta_disclosure: "Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.",
   footer: "This site does not provide investment advice. Crypto investment carries high risk and may result in total loss. Make your own informed decisions.",
   phase: {15:"Extreme Cold · Deep Bear",30:"Cold · Bottom Zone",45:"Mild · Accumulation",60:"Neutral · Uptrend",75:"Warm · Acceleration",90:"Hot · High Alert",100:"Extreme · Historical Peak"},
+  share_x: "Share", share_copy: "Copy Link", share_copied: "Link copied!",
+  install_text: "Add to Home Screen for daily score updates", install_btn: "Add to Home Screen", install_dismiss: "Later",
+  score_cta: {
+    15: {text: "Extreme fear across the market. Historically, the best buying opportunities have started here. Don't have a Binance account yet?", btn: "Open Account & Get 10% Rebate"},
+    30: {text: "The market is in a historically cold zone. Smart money often accumulates at these levels. Ready to position yourself?", btn: "Start on Binance — 10% Fee Rebate"},
+    45: {text: "Neutral territory — a reasonable time to start building a position with regular small buys. Want to get started?", btn: "Register on Binance — Save 10% on Fees"},
+    60: {text: "The cycle is warming up. If you've been waiting on the sidelines, the window may be narrowing.", btn: "Open Binance Account — 10% Rebate"},
+    75: {text: "Momentum is building. Consider whether your current position matches your plan. Need a reliable exchange?", btn: "Trade on Binance — 10% Fee Back"},
+    90: {text: "Multiple indicators are running hot. Time to review your exit strategy. Make sure you can move quickly.", btn: "Trade on Binance — 10% Rebate"},
+    100:{text: "Historically extreme levels. If you need to take profits, make sure your exchange is ready.", btn: "Sell on Binance — 10% Fee Savings"}
+  },
   steps: [
     {n:"01",t:"Understand What Bitcoin Is",i:"💡",
      c:"Bitcoin is a decentralized digital currency with a fixed supply of 21 million. Think of it as digital gold — scarce, globally transferable, and not controlled by any single government. You don't need to buy a whole BTC; you can buy 0.001 or even less.",
      tip:"Bitcoin's core value lies in scarcity and decentralization. Understanding these two points is enough."},
     {n:"02",t:"Register on an Exchange",i:"🏦",
-     c:"An exchange is where you buy and sell crypto. Binance is the world's largest crypto exchange with 300M+ users. Register via the link below to get a permanent 10% rebate on all trading fees.",
+     c:"An exchange is where you buy and sell crypto. Binance is the world's largest crypto exchange with 200M+ users. Register via the link below to get a permanent 10% rebate on all trading fees.",
      tip:"First thing after registration: enable Google Authenticator (2FA). This is the most important step for account security.", cta:true},
     {n:"03",t:"Deposit Funds",i:"💳",
      c:"The most common method is P2P trading: buy USDT (a stablecoin pegged to USD) from other users via bank transfer on Binance's P2P page. The platform acts as escrow. Then use USDT to buy BTC.",
@@ -240,16 +303,29 @@ zh: {
   guide_sub: "6个清晰步骤，每步附实操提示。专为完全没接触过加密货币的人准备。",
   warn_title: "⚠️ 新手必须避开的坑",
   cta_title: "准备好了？",
-  cta_sub: "通过下方链接注册币安，每笔现货交易永久返还10%手续费。全球最大加密货币交易所，3亿+用户信赖。",
-  cta_btn: "注册币安，享10%返佣 →", cta_note: "邀请链接 · 每笔交易永久返10%手续费",
+  cta_sub: "通过下方链接注册币安，每笔交易永久返还10%手续费。全球最大加密货币交易所，2亿+用户信赖。",
+  cta_btn: "注册币安，享10%返佣 →",
+  cta_note: "每交易1万美元省约10美元手续费，永久有效。",
+  cta_disclosure: "透明声明：我们同样获得10%佣金。你不会多付一分钱——返佣由币安从手续费池中补贴。",
   footer: "本站不提供投资建议。加密货币投资有高风险，可能导致本金全部损失。请自行决策。",
   phase: {15:"极冷 · 深度熊市",30:"偏冷 · 底部区域",45:"温和 · 积累阶段",60:"中性 · 上升通道",75:"偏热 · 加速阶段",90:"过热 · 高度警惕",100:"极热 · 历史极值"},
+  share_x: "分享", share_copy: "复制链接", share_copied: "链接已复制！",
+  install_text: "添加到主屏幕，每日查看评分更新", install_btn: "添加到主屏幕", install_dismiss: "稍后",
+  score_cta: {
+    15: {text: "市场极度恐慌。历史上最好的买入机会往往从这里开始。还没有币安账户？", btn: "开户并享10%返佣"},
+    30: {text: "市场处于历史偏冷区域，聪明钱往往在这个阶段默默积累。准备好入场了吗？", btn: "注册币安，省10%手续费"},
+    45: {text: "中性区间，适合用定投方式逐步建仓。想开始你的第一笔投资吗？", btn: "注册币安，享10%返佣"},
+    60: {text: "周期正在升温。如果你一直在观望，窗口可能正在收窄。", btn: "开设币安账户，省10%"},
+    75: {text: "市场动能增强。检查一下你的持仓是否符合计划。需要一个可靠的交易平台？", btn: "币安交易，返10%手续费"},
+    90: {text: "多项指标偏热。是时候审视你的退出策略了，确保你能快速操作。", btn: "币安交易，享10%返佣"},
+    100:{text: "历史极端水平。如果需要止盈，确保你的交易所已经准备好。", btn: "币安卖出，省10%手续费"}
+  },
   steps: [
     {n:"01",t:"理解比特币是什么",i:"💡",
      c:"比特币是一种去中心化的数字货币，总量 2100 万枚，不可增发。可以理解为「数字黄金」——稀缺、可全球转账、不受单一政府控制。你不需要买一整个 BTC，可以买 0.001 个甚至更少。",
      tip:"比特币的核心价值在于稀缺性和去中心化。理解这两点就够了。"},
     {n:"02",t:"注册交易所",i:"🏦",
-     c:"交易所是买卖加密货币的平台。币安 (Binance) 是全球最大的交易所，3亿+用户。通过下方链接注册，每笔现货交易永久返还10%手续费。",
+     c:"交易所是买卖加密货币的平台。币安 (Binance) 是全球最大的交易所，2亿+用户。通过下方链接注册，每笔交易永久返还10%手续费。",
      tip:"注册后第一件事：开启谷歌验证器 (2FA)，这是保护账户安全最重要的一步。", cta:true},
     {n:"03",t:"入金：把钱存进去",i:"💳",
      c:"最常用的方式是 P2P 交易：在币安 C2C 页面用银行卡购买 USDT（锚定美元的稳定币），平台做担保。拿到 USDT 后就可以买 BTC。",
@@ -275,6 +351,7 @@ zh: {
 
 let lang = new URLSearchParams(location.search).get('lang') || 'en';
 let data = null;
+let deferredPrompt = null;
 
 function T(k) { return LANGS[lang][k] || k; }
 function getPhase(s) {
@@ -285,6 +362,12 @@ function getPhase(s) {
 function getColor(s) {
   if(s<=15) return "#007AFF"; if(s<=30) return "#5AC8FA"; if(s<=45) return "#34C759";
   if(s<=60) return "#FF9500"; if(s<=75) return "#FF6B35"; if(s<=90) return "#FF3B30"; return "#FF2D55";
+}
+
+function getScoreCTA(s) {
+  const ctas = T('score_cta');
+  for (const t of Object.keys(ctas).map(Number).sort((a,b)=>a-b)) { if (s <= t) return ctas[t]; }
+  return ctas[100];
 }
 
 // ===================== Render =====================
@@ -323,6 +406,18 @@ function renderThermo(d) {
     const txt = ind[lang] || ind.en || {};
     row.innerHTML += `<div class="ind-chip"><span class="dot ${ind.status}"></span><span class="name">${txt.name || ''}</span></div>`;
   });
+
+  // Dynamic score CTA
+  const ctaData = getScoreCTA(s);
+  const ctaBox = document.getElementById('score-cta');
+  document.getElementById('score-cta-text').textContent = ctaData.text;
+  const ctaLink = document.getElementById('score-cta-link');
+  ctaLink.textContent = ctaData.btn;
+  ctaLink.href = REF();
+  ctaBox.style.display = '';
+
+  // Show share buttons
+  document.getElementById('share-row').style.display = '';
 }
 
 function renderSteps() {
@@ -340,6 +435,66 @@ function renderWarns() {
   T('warns').forEach(w => {
     box.innerHTML += `<div class="warn-c"><h4>🚫 ${w.t}</h4><p>${w.d}</p></div>`;
   });
+}
+
+// ===================== Share =====================
+function shareScore(method) {
+  const s = data ? data.score : '?';
+  const phase = data ? getPhase(s) : '';
+  const url = 'https://btctothemoon.uk';
+  const text = `BTC Cycle Score: ${s}/100 — ${phase}\nCheck where we are in the cycle 👇\n${url}`;
+
+  if (method === 'twitter') {
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+  } else if (method === 'copy') {
+    navigator.clipboard.writeText(url).then(() => showToast(T('share_copied'))).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea'); ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      showToast(T('share_copied'));
+    });
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('share-toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===================== PWA Install =====================
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (!localStorage.getItem('pwa-dismissed')) {
+    document.getElementById('install-banner').style.display = '';
+  }
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      document.getElementById('install-banner').style.display = 'none';
+    });
+  }
+}
+
+function dismissInstall() {
+  document.getElementById('install-banner').style.display = 'none';
+  try { localStorage.setItem('pwa-dismissed', '1'); } catch(e) {}
+}
+
+// iOS standalone check — show manual tip
+if (('standalone' in navigator) && !navigator.standalone && /iphone|ipad/i.test(navigator.userAgent)) {
+  if (!localStorage.getItem('pwa-dismissed')) {
+    const b = document.getElementById('install-banner');
+    b.querySelector('p').textContent = lang === 'zh'
+      ? '点击浏览器底部分享按钮 → 添加到主屏幕'
+      : 'Tap the share button below → Add to Home Screen';
+    b.querySelector('button').style.display = 'none';
+    b.style.display = '';
+  }
 }
 
 // ===================== BTC Price =====================
@@ -377,7 +532,7 @@ function go(id, btn) {
 document.addEventListener('DOMContentLoaded', async () => {
   renderI18n();
   fetchPrice();
-  setInterval(fetchPrice, 600000); // 10min
+  setInterval(fetchPrice, 600000);
 
   try {
     const r = await fetch('./data.json');

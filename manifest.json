@@ -1,0 +1,22 @@
+{
+  "name": "BTC Cycle Indicator",
+  "short_name": "BTC Cycle",
+  "description": "Daily Bitcoin cycle score based on on-chain data",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#F7931A",
+  "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
