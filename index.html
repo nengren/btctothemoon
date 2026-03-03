@@ -168,7 +168,7 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   <div class="cta-box">
     <h3 data-i18n="cta_title">Ready to Start?</h3>
     <p data-i18n="cta_sub">Register on Binance via the link below for trading fee rebates. The world's largest crypto exchange, beginner friendly.</p>
-    <a href="https://www.binance.com/register?ref=61071965" target="_blank" rel="noopener noreferrer" class="btn-p" data-i18n="cta_btn">Register on Binance →</a>
+    <a id="main-cta" href="https://accounts.binance.com/en/register?ref=61071965" target="_blank" rel="noopener noreferrer" class="btn-p" data-i18n="cta_btn">Register on Binance →</a>
     <div class="cta-note" data-i18n="cta_note">Referral link · Fee rebate</div>
   </div>
 </section>
@@ -182,7 +182,11 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
 
 <script>
 // ===================== i18n =====================
-const REF = "https://www.binance.com/register?ref=61071965";
+const REF_URLS = {
+  en: "https://accounts.binance.com/en/register?ref=61071965",
+  zh: "https://accounts.binance.com/zh-CN/register?ref=61071965"
+};
+function REF() { return REF_URLS[lang] || REF_URLS.en; }
 
 const LANGS = {
 en: {
@@ -293,6 +297,7 @@ function renderI18n() {
   document.documentElement.lang = lang;
   renderSteps();
   renderWarns();
+  document.getElementById('main-cta').href = REF();
   if (data) renderThermo(data);
 }
 
@@ -324,7 +329,7 @@ function renderSteps() {
   const box = document.getElementById('steps-box');
   box.innerHTML = '';
   T('steps').forEach((s, i) => {
-    const cta = s.cta ? `<a href="${REF}" target="_blank" rel="noopener noreferrer" class="btn-b" onclick="event.stopPropagation()">${T('cta_btn').replace(' →','').replace('，开始投资','')}</a>` : '';
+    const cta = s.cta ? `<a href="${REF()}" target="_blank" rel="noopener noreferrer" class="btn-b" onclick="event.stopPropagation()">${T('cta_btn').replace(' →','').replace('，开始投资','')}</a>` : '';
     box.innerHTML += `<div class="step" id="s${i}" onclick="togStep(${i})"><div class="step-h"><span class="step-n">${s.n}</span><span class="step-i">${s.i}</span><span class="step-t">${s.t}</span><span class="step-a">▾</span></div><div class="step-b"><p class="step-c">${s.c}</p><div class="step-tip">💡 <b>Tip: </b>${s.tip}</div>${cta}</div></div>`;
   });
 }
