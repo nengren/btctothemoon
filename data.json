@@ -22,14 +22,14 @@
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -29.1,
+      "value": -29.9,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "29% below 200DMA"
+        "note": "30% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 29%"
+        "note": "下方 30%"
       }
     },
     {
@@ -47,11 +47,11 @@
     }
   ],
   "raw": {
-    "btc_price": 68488,
-    "ma_200": 96587,
+    "btc_price": 67658,
+    "ma_200": 96582,
     "fear_greed": 14,
-    "deviation_pct": -29.09,
+    "deviation_pct": -29.95,
     "funding_rate": null,
-    "btc_dominance": 56.59
+    "btc_dominance": 56.58
   }
 }
