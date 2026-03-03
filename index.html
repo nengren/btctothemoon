@@ -47,10 +47,10 @@ h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px}
 
 /* Compact indicators */
 .ind-row{max-width:480px;margin:20px auto 0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.ind-chip{display:flex;align-items:center;gap:6px;padding:6px 14px;background:#fff;border-radius:20px;border:1px solid var(--border);font-size:12px;white-space:nowrap}
-.ind-chip .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.ind-chip{display:flex;align-items:center;gap:5px;padding:5px 12px;background:#fff;border-radius:20px;border:1px solid var(--border);font-size:12px;white-space:nowrap}
+.ind-chip .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .dot.cold{background:#007AFF}.dot.cool{background:#5AC8FA}.dot.neutral{background:#FF9500}.dot.warm{background:#FF6B35}.dot.hot{background:#FF3B30}
-.ind-chip .name{color:var(--text2);font-weight:500}.ind-chip .val{color:var(--text);font-weight:600}
+.ind-chip .name{color:var(--text2);font-weight:500}
 
 .disclaimer{max-width:480px;margin:24px auto 0;padding:12px 16px;background:var(--orange-light);border-radius:var(--rs);border:1px solid rgba(247,147,26,.12);font-size:11px;color:var(--text2);line-height:1.6;text-align:center}
 .loading{text-align:center;padding:60px 20px;color:var(--text3)}
@@ -120,22 +120,22 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
     <div id="thermo-loading" class="loading"><div class="spinner"></div><span data-i18n="loading">Loading latest data...</span></div>
     <div id="thermo-content" style="display:none">
       <div style="text-align:center">
-        <svg viewBox="0 0 300 180" class="gauge-svg">
+        <svg viewBox="-10 0 320 195" class="gauge-svg">
           <defs>
             <linearGradient id="ag" x1="0%" y1="0%" x2="100%"><stop offset="0%" stop-color="#007AFF"/><stop offset="20%" stop-color="#34C759"/><stop offset="45%" stop-color="#FF9500"/><stop offset="70%" stop-color="#FF6B35"/><stop offset="100%" stop-color="#FF3B30"/></linearGradient>
           </defs>
-          <path d="M 35 158 A 115 115 0 0 1 265 158" fill="none" stroke="#F2F2F7" stroke-width="20" stroke-linecap="round"/>
-          <path d="M 35 158 A 115 115 0 0 1 265 158" fill="none" stroke="url(#ag)" stroke-width="20" stroke-linecap="round" opacity=".85"/>
-          <text x="22" y="172" fill="#AEAEB2" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="500">0</text>
-          <text x="55" y="93" fill="#AEAEB2" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="500">25</text>
-          <text x="150" y="58" fill="#AEAEB2" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="500">50</text>
-          <text x="245" y="93" fill="#AEAEB2" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="500">75</text>
-          <text x="278" y="172" fill="#AEAEB2" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="500">100</text>
-          <g id="needle" style="transform-origin:150px 158px;transition:transform 1.8s cubic-bezier(.34,1.56,.64,1)">
-            <line x1="150" y1="158" x2="150" y2="58" stroke="#1D1D1F" stroke-width="2.5" stroke-linecap="round"/>
-            <circle cx="150" cy="158" r="6" fill="#1D1D1F"/><circle cx="150" cy="158" r="2.5" fill="#fff"/>
+          <path d="M 35 165 A 115 115 0 0 1 265 165" fill="none" stroke="#F2F2F7" stroke-width="20" stroke-linecap="round"/>
+          <path d="M 35 165 A 115 115 0 0 1 265 165" fill="none" stroke="url(#ag)" stroke-width="20" stroke-linecap="round" opacity=".85"/>
+          <text x="10" y="182" fill="#1D1D1F" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600">0</text>
+          <text x="36" y="62" fill="#1D1D1F" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600">25</text>
+          <text x="150" y="22" fill="#1D1D1F" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600">50</text>
+          <text x="264" y="62" fill="#1D1D1F" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600">75</text>
+          <text x="290" y="182" fill="#1D1D1F" font-size="11" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-weight="600">100</text>
+          <g id="needle" style="transform-origin:150px 165px;transition:transform 1.8s cubic-bezier(.34,1.56,.64,1)">
+            <line x1="150" y1="165" x2="150" y2="65" stroke="#1D1D1F" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="150" cy="165" r="6" fill="#1D1D1F"/><circle cx="150" cy="165" r="2.5" fill="#fff"/>
           </g>
-          <text x="150" y="143" fill="#1D1D1F" font-size="46" font-weight="800" text-anchor="middle" font-family="'Inter',sans-serif" id="score-text">0</text>
+          <text x="150" y="150" fill="#1D1D1F" font-size="46" font-weight="800" text-anchor="middle" font-family="'Inter',sans-serif" id="score-text">0</text>
         </svg>
         <div id="phase-label" class="phase-label"></div>
       </div>
@@ -316,7 +316,7 @@ function renderThermo(d) {
   row.innerHTML = '';
   (d.indicators || []).forEach(ind => {
     const txt = ind[lang] || ind.en || {};
-    row.innerHTML += `<div class="ind-chip"><span class="dot ${ind.status}"></span><span class="name">${txt.name || ''}</span><span class="val">${txt.note || ''}</span></div>`;
+    row.innerHTML += `<div class="ind-chip"><span class="dot ${ind.status}"></span><span class="name">${txt.name || ''}</span></div>`;
   });
 }
 
