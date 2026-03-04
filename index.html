@@ -11,6 +11,53 @@
 <meta name="google-site-verification" content="yPbvsfbfnrwPLOHncGKEtcXYDIIBEyPBUlu-uXy488o">
 <link rel="canonical" href="https://btctothemoon.uk/">
 
+<!-- Preconnect for speed -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.coingecko.com">
+
+<!-- FAQ Schema for Google Rich Snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Where are we in the Bitcoin cycle right now?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Our BTC Cycle Indicator tracks four key metrics daily — Fear & Greed Index, price vs 200-day moving average, funding rates, and BTC dominance — to give a composite score from 0 (extreme bear) to 100 (extreme bull). Check btctothemoon.uk for the live score updated every day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is now a good time to buy Bitcoin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Historically, buying when the cycle score is below 30 and holding for 12+ months has been profitable 100% of the time in past cycles. However, past performance doesn't guarantee future results. Our indicator helps you see where we are relative to historical patterns — not predict the future."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Bitcoin 4-year cycle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bitcoin's supply is halved approximately every 4 years (called the 'halving'). This supply reduction has historically triggered a cycle: accumulation → bull run → euphoria → crash → repeat. The most recent halving was in April 2024."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the BTC cycle score calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The score combines four indicators: Fear & Greed Index (25% weight), price deviation from 200-day moving average (35%), perpetual futures funding rate (15%), and BTC market dominance (25%). All data comes from free public APIs and updates daily."
+      }
+    }
+  ]
+}
+</script>
+
 <!-- Open Graph (Facebook, Telegram, LinkedIn) -->
 <meta property="og:title" content="Bitcoin Cycle Indicator — Where Are We Right Now?">
 <meta property="og:description" content="Daily BTC cycle score based on 4 on-chain metrics. Free, no signup. See if we're in a buy zone or sell zone.">
@@ -259,6 +306,22 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   <div class="disclaimer" data-i18n="disclaimer">Scores are based on public on-chain data and historical statistical patterns — not predictions. Crypto carries extreme risk. DYOR.</div>
 </section>
 
+<!-- Score History Chart -->
+<section id="history-section" style="max-width:540px;margin:0 auto;padding:32px 24px 0;display:none">
+  <div class="center">
+    <div class="tag" style="background:var(--orange-light);color:var(--orange)" data-i18n="history_tag">History</div>
+    <h2 data-i18n="history_title" style="font-size:18px;margin:8px 0 4px">Score Trend</h2>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:16px" data-i18n="history_sub">Daily composite score over time</p>
+  </div>
+  <div style="background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:20px 16px 12px;position:relative">
+    <canvas id="history-chart" width="500" height="180" style="width:100%;height:auto;display:block"></canvas>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace">
+      <span id="chart-start"></span>
+      <span id="chart-end"></span>
+    </div>
+  </div>
+</section>
+
 <div style="height:1px;background:var(--border);max-width:120px;margin:0 auto"></div>
 
 <section id="guide" class="guide-section">
@@ -331,6 +394,7 @@ en: {
   cta_note: "Save ~$10 on every $10,000 traded. Permanent, no expiry.",
   cta_disclosure: "Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.",
   learn_tag: "Learn", learn_title: "Understand the Cycle", daily_link: "View Today's Full Analysis →",
+  history_tag: "History", history_title: "Score Trend", history_sub: "Daily composite score over time",
   footer: "This site does not provide investment advice. Crypto investment carries high risk and may result in total loss. Make your own informed decisions.",
   phase: {15:"Extreme Cold · Deep Bear",30:"Cold · Bottom Zone",45:"Mild · Accumulation",60:"Neutral · Uptrend",75:"Warm · Acceleration",90:"Hot · High Alert",100:"Extreme · Historical Peak"},
   share_x: "Share on X", share_fb: "Facebook", share_tg: "Telegram", share_copied: "Link copied!",
@@ -387,6 +451,7 @@ zh: {
   cta_note: "每交易1万美元省约10美元手续费，永久有效。",
   cta_disclosure: "透明声明：我们同样获得10%佣金。你不会多付一分钱——返佣由币安从手续费池中补贴。",
   learn_tag: "学习", learn_title: "理解BTC周期", daily_link: "查看今日完整分析 →",
+  history_tag: "历史", history_title: "评分走势", history_sub: "每日综合评分变化趋势",
   footer: "本站不提供投资建议。加密货币投资有高风险，可能导致本金全部损失。请自行决策。",
   phase: {15:"极冷 · 深度熊市",30:"偏冷 · 底部区域",45:"温和 · 积累阶段",60:"中性 · 上升通道",75:"偏热 · 加速阶段",90:"过热 · 高度警惕",100:"极热 · 历史极值"},
   share_x: "分享到 X", share_fb: "Facebook", share_tg: "Telegram", share_copied: "链接已复制！",
@@ -633,6 +698,85 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderThermo({score:50, lastUpdated:'--', summary:{en:'Loading...', zh:'加载中...'}, indicators:[]});
   }
 });
+
+// History Chart
+(async function() {
+  try {
+    const r = await fetch('./history.json');
+    const history = await r.json();
+    if (!history || history.length < 2) return;
+
+    const section = document.getElementById('history-section');
+    section.style.display = '';
+
+    const canvas = document.getElementById('history-chart');
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.offsetWidth;
+    const H = 180;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+
+    const pad = {t:20, r:12, b:20, l:36};
+    const cw = W - pad.l - pad.r;
+    const ch = H - pad.t - pad.b;
+
+    // Zone backgrounds
+    [{min:0,max:30,c:'rgba(0,122,255,.06)'},{min:30,max:60,c:'rgba(255,204,0,.05)'},{min:60,max:100,c:'rgba(255,59,48,.05)'}].forEach(z => {
+      const y1 = pad.t + ch * (1 - z.max / 100);
+      const y2 = pad.t + ch * (1 - z.min / 100);
+      ctx.fillStyle = z.c;
+      ctx.fillRect(pad.l, y1, cw, y2 - y1);
+    });
+
+    // Grid lines
+    [30, 60].forEach(v => {
+      const y = pad.t + ch * (1 - v / 100);
+      ctx.beginPath(); ctx.setLineDash([3,3]); ctx.strokeStyle = 'rgba(0,0,0,.08)'; ctx.lineWidth = 1;
+      ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + cw, y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#AEAEB2'; ctx.font = '10px JetBrains Mono,monospace'; ctx.textAlign = 'right';
+      ctx.fillText(v, pad.l - 6, y + 3);
+    });
+
+    // Score line
+    const scores = history.map(h => h.score);
+    const n = scores.length;
+    const stepX = cw / Math.max(n - 1, 1);
+
+    ctx.beginPath();
+    scores.forEach((s, i) => {
+      const x = pad.l + i * stepX;
+      const y = pad.t + ch * (1 - s / 100);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#F7931A'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+
+    // Gradient fill
+    ctx.lineTo(pad.l + (n-1) * stepX, pad.t + ch);
+    ctx.lineTo(pad.l, pad.t + ch);
+    ctx.closePath();
+    const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + ch);
+    grad.addColorStop(0, 'rgba(247,147,26,.15)');
+    grad.addColorStop(1, 'rgba(247,147,26,.01)');
+    ctx.fillStyle = grad; ctx.fill();
+
+    // Current dot
+    const lx = pad.l + (n-1) * stepX;
+    const ly = pad.t + ch * (1 - scores[n-1] / 100);
+    ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI*2); ctx.fillStyle = '#F7931A'; ctx.fill();
+    ctx.beginPath(); ctx.arc(lx, ly, 7, 0, Math.PI*2); ctx.strokeStyle = 'rgba(247,147,26,.3)'; ctx.lineWidth = 2; ctx.stroke();
+
+    // Score label
+    ctx.fillStyle = '#1D1D1F'; ctx.font = 'bold 12px Inter,sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(scores[n-1], lx, ly - 12);
+
+    // Date labels
+    document.getElementById('chart-start').textContent = history[0].date;
+    document.getElementById('chart-end').textContent = history[n-1].date;
+  } catch(e) { console.warn('history chart:', e); }
+})();
 </script>
 </body>
 </html>
