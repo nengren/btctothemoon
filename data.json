@@ -22,36 +22,36 @@
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -29.3,
+      "value": -28.0,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "29% below 200DMA"
+        "note": "28% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 29%"
+        "note": "下方 28%"
       }
     },
     {
       "key": "dominance",
       "status": "cool",
-      "value": 56.7,
+      "value": 56.9,
       "en": {
         "name": "BTC Dominance",
-        "note": "56.7%, normal"
+        "note": "56.9%, normal"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "56.7%，正常"
+        "note": "56.9%，正常"
       }
     }
   ],
   "raw": {
-    "btc_price": 68135,
-    "ma_200": 96339,
+    "btc_price": 69339,
+    "ma_200": 96345,
     "fear_greed": 10,
-    "deviation_pct": -29.28,
+    "deviation_pct": -28.03,
     "funding_rate": null,
-    "btc_dominance": 56.74
+    "btc_dominance": 56.91
   }
 }
