@@ -281,6 +281,22 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   </div>
 </section>
 
+<section class="learn-section" style="max-width:540px;margin:0 auto;padding:40px 24px 20px">
+  <div class="center">
+    <div class="tag" style="background:var(--orange-light);color:var(--orange)" data-i18n="learn_tag">Learn</div>
+    <h2 data-i18n="learn_title" style="font-size:20px;margin:8px 0 16px">Understand the Cycle</h2>
+  </div>
+  <div style="display:grid;gap:10px">
+    <a href="/guide/bitcoin-4-year-cycle.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">The Bitcoin 4-Year Cycle Explained <span style="float:right;color:var(--text3)">→</span></a>
+    <a href="/guide/when-to-buy-bitcoin.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">When to Buy Bitcoin — What Data Says <span style="float:right;color:var(--text3)">→</span></a>
+    <a href="/guide/fear-and-greed-explained.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">Fear & Greed Index Explained <span style="float:right;color:var(--text3)">→</span></a>
+    <a href="/guide/bitcoin-200-day-moving-average.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">The 200-Day Moving Average Guide <span style="float:right;color:var(--text3)">→</span></a>
+  </div>
+  <div style="text-align:center;margin-top:16px">
+    <a id="daily-report-link" href="/daily/" style="font-size:13px;color:var(--orange);text-decoration:none;font-weight:500" data-i18n="daily_link">View Today's Full Analysis →</a>
+  </div>
+</section>
+
 <footer>
   <div style="display:flex;align-items:center;gap:8px"><div class="logo-icon" style="width:24px;height:24px;font-size:12px">₿</div><span style="font-size:14px;color:var(--text3);font-weight:500">btctothemoon.uk</span></div>
   <p data-i18n="footer">This site does not provide investment advice. Crypto investment carries high risk and may result in total loss of capital. Make your own informed decisions.</p>
@@ -314,6 +330,7 @@ en: {
   cta_btn: "Register & Get 10% Fee Rebate →",
   cta_note: "Save ~$10 on every $10,000 traded. Permanent, no expiry.",
   cta_disclosure: "Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.",
+  learn_tag: "Learn", learn_title: "Understand the Cycle", daily_link: "View Today's Full Analysis →",
   footer: "This site does not provide investment advice. Crypto investment carries high risk and may result in total loss. Make your own informed decisions.",
   phase: {15:"Extreme Cold · Deep Bear",30:"Cold · Bottom Zone",45:"Mild · Accumulation",60:"Neutral · Uptrend",75:"Warm · Acceleration",90:"Hot · High Alert",100:"Extreme · Historical Peak"},
   share_x: "Share on X", share_fb: "Facebook", share_tg: "Telegram", share_copied: "Link copied!",
@@ -369,6 +386,7 @@ zh: {
   cta_btn: "注册币安，享10%返佣 →",
   cta_note: "每交易1万美元省约10美元手续费，永久有效。",
   cta_disclosure: "透明声明：我们同样获得10%佣金。你不会多付一分钱——返佣由币安从手续费池中补贴。",
+  learn_tag: "学习", learn_title: "理解BTC周期", daily_link: "查看今日完整分析 →",
   footer: "本站不提供投资建议。加密货币投资有高风险，可能导致本金全部损失。请自行决策。",
   phase: {15:"极冷 · 深度熊市",30:"偏冷 · 底部区域",45:"温和 · 积累阶段",60:"中性 · 上升通道",75:"偏热 · 加速阶段",90:"过热 · 高度警惕",100:"极热 · 历史极值"},
   share_x: "分享到 X", share_fb: "Facebook", share_tg: "Telegram", share_copied: "链接已复制！",
@@ -482,6 +500,12 @@ function renderThermo(d) {
   // Show share buttons
   document.getElementById('share-row').style.display = '';
   updateShareLinks();
+
+  // Update daily report link
+  const dailyLink = document.getElementById('daily-report-link');
+  if (dailyLink && d.lastUpdated) {
+    dailyLink.href = '/daily/' + d.lastUpdated + '.html';
+  }
 }
 
 function renderSteps() {

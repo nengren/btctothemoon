@@ -25,11 +25,19 @@ jobs:
       - name: Run scoring script
         run: python scripts/update_score.py
 
-      - name: Commit updated data.json
+      - name: Generate content pages
+        run: python scripts/generate_pages.py
+
+      - name: Commit and push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "BTC Score Bot"
-          git add data.json
-          # 只在 data.json 有变化时 commit
-          git diff --staged --quiet || git commit -m "📊 Update cycle score $(date -u +%Y-%m-%d)"
-          git push
+          git add -A
+          CHANGES=$(git diff --cached --stat)
+          if [ -n "$CHANGES" ]; then
+            DATE=$(date -u +%Y-%m-%d)
+            git commit -m "daily update: ${DATE}"
+            git push
+          else
+            echo "No changes to commit"
+          fi
