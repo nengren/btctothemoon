@@ -36,6 +36,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/daily/2026-03-07.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/daily/2026-03-06.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
@@ -49,5 +54,10 @@
     <loc>https://btctothemoon.uk/daily/2026-03-04.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-07.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
