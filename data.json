@@ -1,6 +1,6 @@
 {
-  "score": 29,
-  "lastUpdated": "2026-03-07",
+  "score": 28,
+  "lastUpdated": "2026-03-08",
   "summary": {
     "en": "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains.",
     "zh": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
@@ -22,14 +22,14 @@
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -29.0,
+      "value": -29.5,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "29% below 200DMA"
+        "note": "30% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 29%"
+        "note": "下方 30%"
       }
     },
     {
@@ -47,11 +47,11 @@
     }
   ],
   "raw": {
-    "btc_price": 67952,
-    "ma_200": 95664,
+    "btc_price": 67252,
+    "ma_200": 95425,
     "fear_greed": 12,
-    "deviation_pct": -28.97,
+    "deviation_pct": -29.52,
     "funding_rate": null,
-    "btc_dominance": 56.56
+    "btc_dominance": 56.55
   }
 }
