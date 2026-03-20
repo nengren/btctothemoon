@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: write  # 需要写权限来 commit data.json
+      contents: write
     
     steps:
       - name: Checkout repo
@@ -27,6 +27,11 @@ jobs:
 
       - name: Generate content pages
         run: python scripts/generate_pages.py
+
+      - name: Send Telegram notification
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: python scripts/notify_telegram.py
 
       - name: Commit and push
         run: |
