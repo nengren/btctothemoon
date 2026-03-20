@@ -1,57 +1,57 @@
 {
-  "score": 33,
-  "lastUpdated": "2026-03-19",
+  "score": 30,
+  "lastUpdated": "2026-03-20",
   "summary": {
-    "en": "The market is in a moderate zone with neutral indicators. Could be recovering from a bottom or consolidating sideways.",
-    "zh": "市场处于温和区域，各项指标趋于中性。可能正在从底部恢复，也可能处于横盘整理阶段。"
+    "en": "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains.",
+    "zh": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
   },
   "indicators": [
     {
       "key": "fear_greed",
       "status": "cold",
-      "value": 23,
+      "value": 11,
       "en": {
         "name": "Fear & Greed",
-        "note": "23/100, Extreme Fear"
+        "note": "11/100, Extreme Fear"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "23/100, 极度恐惧"
+        "note": "11/100, 极度恐惧"
       }
     },
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -24.8,
+      "value": -24.2,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "25% below 200DMA"
+        "note": "24% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 25%"
+        "note": "下方 24%"
       }
     },
     {
       "key": "dominance",
       "status": "cool",
-      "value": 56.3,
+      "value": 56.5,
       "en": {
         "name": "BTC Dominance",
-        "note": "56.3%, normal"
+        "note": "56.5%, normal"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "56.3%，正常"
+        "note": "56.5%，正常"
       }
     }
   ],
   "raw": {
-    "btc_price": 70069,
-    "ma_200": 93193,
-    "fear_greed": 23,
-    "deviation_pct": -24.81,
+    "btc_price": 70470,
+    "ma_200": 92999,
+    "fear_greed": 11,
+    "deviation_pct": -24.22,
     "funding_rate": null,
-    "btc_dominance": 56.27
+    "btc_dominance": 56.49
   }
 }
