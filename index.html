@@ -169,6 +169,24 @@ h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-1px}
 .install-banner .dismiss{background:0;color:var(--text3);margin-left:8px;padding:8px 12px}
 
 .disclaimer{max-width:480px;margin:24px auto 0;padding:12px 16px;background:var(--orange-light);border-radius:var(--rs);border:1px solid rgba(247,147,26,.12);font-size:11px;color:var(--text2);line-height:1.6;text-align:center}
+.calc-section{max-width:480px;margin:28px auto 0}
+.calc-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px;position:relative;overflow:hidden}
+.calc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),#F5B041)}
+.calc-input-row{display:flex;align-items:center;gap:10px;margin:16px 0}
+.calc-input-row label{font-size:13px;color:var(--text2);white-space:nowrap}
+.calc-input{flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:16px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;transition:.2s;text-align:right}
+.calc-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(247,147,26,.1)}
+.calc-results{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px}
+.calc-result{padding:14px 10px;border-radius:10px;text-align:center}
+.calc-result .scenario{font-size:10px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;margin-bottom:4px}
+.calc-result .amount{font-size:18px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.calc-result .pct{font-size:11px;margin-top:2px;font-weight:500}
+.calc-worst{background:#FFF5F5}.calc-worst .scenario{color:var(--red)}.calc-worst .amount{color:var(--red)}.calc-worst .pct{color:var(--red)}
+.calc-avg{background:#FFF8F0}.calc-avg .scenario{color:var(--orange)}.calc-avg .amount{color:var(--orange)}.calc-avg .pct{color:var(--orange)}
+.calc-best{background:#F0FFF4}.calc-best .scenario{color:#34C759}.calc-best .amount{color:#34C759}.calc-best .pct{color:#34C759}
+.calc-note{font-size:11px;color:var(--text3);text-align:center;margin-top:12px;line-height:1.5}
+.calc-cta{display:block;text-align:center;margin-top:16px;padding:10px;background:var(--orange);color:#fff;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;transition:.2s}
+.calc-cta:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(247,147,26,.3)}
 .loading{text-align:center;padding:60px 20px;color:var(--text3)}
 .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -208,7 +226,7 @@ footer .copy{color:var(--text3);font-size:11px;opacity:.6;font-family:'JetBrains
 footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
 
 @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:520px){section{padding:48px 16px}.thermo-card{padding:28px 20px 24px}.cta-box{padding:32px 20px}.step-h{padding:16px;gap:10px}.nav-btn{padding:6px 10px;font-size:12px}.ind-row{gap:6px}}
+@media(max-width:520px){section{padding:48px 16px}.thermo-card{padding:28px 20px 24px}.cta-box{padding:32px 20px}.step-h{padding:16px;gap:10px}.nav-btn{padding:6px 10px;font-size:12px}.ind-row{gap:6px}.calc-result .amount{font-size:15px}.calc-results{gap:6px}}
 </style>
 </head>
 <body>
@@ -308,6 +326,42 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   </div>
 
   <div class="disclaimer" data-i18n="disclaimer">Scores are based on public on-chain data and historical statistical patterns — not predictions. Crypto carries extreme risk. DYOR.</div>
+
+  <!-- Investment Calculator -->
+  <div class="calc-section" id="calc-section" style="display:none">
+    <div class="calc-card">
+      <div style="text-align:center;margin-bottom:4px">
+        <span class="tag" style="background:var(--orange-light);color:var(--orange);display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600" data-i18n="calc_tag">Historical Simulator</span>
+      </div>
+      <h3 style="text-align:center;font-size:15px;font-weight:700;margin:8px 0 4px" data-i18n="calc_title">What if you invested at this score?</h3>
+      <p style="text-align:center;font-size:12px;color:var(--text3);margin-bottom:12px" data-i18n="calc_sub">Based on every past instance of a similar score, held for 12 months</p>
+      <div class="calc-input-row">
+        <label data-i18n="calc_label">Investment</label>
+        <span style="font-size:16px;font-weight:600;color:var(--text)">$</span>
+        <input type="number" class="calc-input" id="calc-amount" value="1000" min="1" max="10000000" oninput="updateCalc()">
+      </div>
+      <div class="calc-results" id="calc-results">
+        <div class="calc-result calc-worst">
+          <div class="scenario" data-i18n="calc_worst">Worst case</div>
+          <div class="amount" id="calc-worst-amt">$1,400</div>
+          <div class="pct" id="calc-worst-pct">+40%</div>
+        </div>
+        <div class="calc-result calc-avg">
+          <div class="scenario" data-i18n="calc_avg">Average</div>
+          <div class="amount" id="calc-avg-amt">$2,270</div>
+          <div class="pct" id="calc-avg-pct">+127%</div>
+        </div>
+        <div class="calc-result calc-best">
+          <div class="scenario" data-i18n="calc_best">Best case</div>
+          <div class="amount" id="calc-best-amt">$11,200</div>
+          <div class="pct" id="calc-best-pct">+1,020%</div>
+        </div>
+      </div>
+      <div class="calc-note" data-i18n="calc_note">Based on historical 12-month returns when the score was in a similar range. Past performance does not guarantee future results.</div>
+      <a class="calc-cta" id="calc-cta" href="#" target="_blank" rel="noopener noreferrer" data-i18n="calc_cta">Start Investing — 10% Fee Rebate on Binance</a>
+    </div>
+  </div>
+
 </section>
 
 <!-- Score History Chart -->
@@ -418,6 +472,7 @@ en: {
   cta_disclosure: "Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.",
   learn_tag: "Learn", learn_title: "Understand the Cycle", daily_link: "View Today's Full Analysis →",
   history_tag: "History", history_title: "Score Trend", history_sub: "Daily composite score over time",
+  calc_tag: "Historical Simulator", calc_title: "What if you invested at this score?", calc_sub: "Based on every past instance of a similar score, held for 12 months", calc_label: "Investment", calc_worst: "Worst case", calc_avg: "Average", calc_best: "Best case", calc_note: "Based on historical 12-month returns when the score was in a similar range. Past performance does not guarantee future results.", calc_cta: "Start Investing — 10% Fee Rebate on Binance",
   tg_title: "Get Alerts When the Score Shifts", tg_desc: "Daily score updates + instant alerts when the cycle crosses key levels (30, 50, 70, 90). Free, no spam.", tg_btn: "Join Telegram Channel", tg_note: "1 message per day · Milestone alerts when score changes significantly",
   footer: "This site does not provide investment advice. Crypto investment carries high risk and may result in total loss. Make your own informed decisions.",
   phase: {15:"Extreme Cold · Deep Bear",30:"Cold · Bottom Zone",45:"Mild · Accumulation",60:"Neutral · Uptrend",75:"Warm · Acceleration",90:"Hot · High Alert",100:"Extreme · Historical Peak"},
@@ -476,6 +531,7 @@ zh: {
   cta_disclosure: "透明声明：我们同样获得10%佣金。你不会多付一分钱——返佣由币安从手续费池中补贴。",
   learn_tag: "学习", learn_title: "理解BTC周期", daily_link: "查看今日完整分析 →",
   history_tag: "历史", history_title: "评分走势", history_sub: "每日综合评分变化趋势",
+  calc_tag: "历史模拟器", calc_title: "如果你在这个评分买入会怎样？", calc_sub: "基于过去每次类似评分时买入并持有12个月的历史数据", calc_label: "投资金额", calc_worst: "最差", calc_avg: "平均", calc_best: "最好", calc_note: "基于评分处于类似范围时的历史12个月回报。历史表现不代表未来收益。", calc_cta: "开始投资 — 币安永久10%返佣",
   tg_title: "评分变动时及时提醒你", tg_desc: "每日评分推送 + 关键位置即时提醒（30/50/70/90）。免费，无垃圾信息。", tg_btn: "加入 Telegram 频道", tg_note: "每天仅1条消息 · 评分大幅变动时触发里程碑提醒",
   footer: "本站不提供投资建议。加密货币投资有高风险，可能导致本金全部损失。请自行决策。",
   phase: {15:"极冷 · 深度熊市",30:"偏冷 · 底部区域",45:"温和 · 积累阶段",60:"中性 · 上升通道",75:"偏热 · 加速阶段",90:"过热 · 高度警惕",100:"极热 · 历史极值"},
@@ -534,6 +590,7 @@ es: {
   cta_disclosure: "Transparencia: ganamos una comisión equivalente del 10%. Tú no pagas nada extra — Binance subsidia ambas partes desde su pool de comisiones.",
   learn_tag: "Aprende", learn_title: "Entiende el ciclo", daily_link: "Ver análisis completo de hoy →",
   history_tag: "Historial", history_title: "Tendencia de puntuación", history_sub: "Puntuación compuesta diaria a lo largo del tiempo",
+  calc_tag: "Simulador histórico", calc_title: "¿Y si hubieras invertido con esta puntuación?", calc_sub: "Basado en cada instancia histórica de una puntuación similar, mantenida 12 meses", calc_label: "Inversión", calc_worst: "Peor caso", calc_avg: "Promedio", calc_best: "Mejor caso", calc_note: "Basado en retornos históricos de 12 meses cuando la puntuación estaba en un rango similar. El rendimiento pasado no garantiza resultados futuros.", calc_cta: "Empezar a invertir — 10% de descuento en Binance",
   tg_title: "Recibe alertas cuando la puntuación cambie", tg_desc: "Actualizaciones diarias + alertas instantáneas cuando el ciclo cruza niveles clave (30, 50, 70, 90). Gratis, sin spam.", tg_btn: "Unirse al canal de Telegram", tg_note: "1 mensaje por día · Alertas de hitos cuando la puntuación cambia significativamente",
   footer: "Este sitio no proporciona asesoramiento de inversión. La inversión en criptomonedas conlleva un alto riesgo y puede resultar en la pérdida total del capital. Toma tus propias decisiones informadas.",
   phase: {15:"Frío extremo · Mercado bajista profundo",30:"Frío · Zona de fondo",45:"Moderado · Acumulación",60:"Neutral · Tendencia alcista",75:"Cálido · Aceleración",90:"Caliente · Alerta alta",100:"Extremo · Pico histórico"},
@@ -667,6 +724,73 @@ function renderThermo(d) {
   const dailyLink = document.getElementById('daily-report-link');
   if (dailyLink && d.lastUpdated) {
     dailyLink.href = '/daily/' + d.lastUpdated + '.html';
+  }
+
+  // Initialize calculator
+  initCalc(d.score);
+}
+
+// ============================================
+// Investment Calculator
+// ============================================
+
+// Historical 12-month returns by score range [worst%, avg%, best%]
+const CALC_RETURNS = {
+  15:  [40, 200, 1020],   // Extreme cold: COVID bottom, 2018 bottom
+  30:  [25, 127, 238],    // Cold: various bear bottoms
+  45:  [3, 80, 140],      // Neutral-cool: transition zones
+  60:  [-15, 50, 353],    // Neutral-warm: mid-cycle
+  75:  [-20, 30, 91],     // Warm: acceleration phase
+  90:  [-48, -10, 47],    // Hot: late cycle
+  100: [-76, -50, -20]    // Extreme: cycle tops
+};
+
+let calcScore = 30;
+
+function getReturns(score) {
+  const thresholds = [15,30,45,60,75,90,100];
+  for (const t of thresholds) {
+    if (score <= t) return CALC_RETURNS[t];
+  }
+  return CALC_RETURNS[100];
+}
+
+function initCalc(score) {
+  calcScore = score;
+  const section = document.getElementById('calc-section');
+  section.style.display = '';
+  document.getElementById('calc-cta').href = REF();
+  updateCalc();
+}
+
+function updateCalc() {
+  const input = document.getElementById('calc-amount');
+  let amount = parseFloat(input.value) || 1000;
+  if (amount < 1) amount = 1;
+
+  const [worst, avg, best] = getReturns(calcScore);
+
+  const fmt = (n) => {
+    if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+    if (n >= 10000) return '$' + Math.round(n).toLocaleString();
+    return '$' + Math.round(n).toLocaleString();
+  };
+
+  document.getElementById('calc-worst-amt').textContent = fmt(amount * (1 + worst/100));
+  document.getElementById('calc-worst-pct').textContent = (worst >= 0 ? '+' : '') + worst + '%';
+  document.getElementById('calc-avg-amt').textContent = fmt(amount * (1 + avg/100));
+  document.getElementById('calc-avg-pct').textContent = (avg >= 0 ? '+' : '') + avg + '%';
+  document.getElementById('calc-best-amt').textContent = fmt(amount * (1 + best/100));
+  document.getElementById('calc-best-pct').textContent = (best >= 0 ? '+' : '') + best + '%';
+
+  // Color the worst case green if positive
+  const worstEl = document.querySelector('.calc-worst');
+  if (worst >= 0) {
+    worstEl.style.background = '#F0FFF4';
+    worstEl.querySelectorAll('.scenario,.amount,.pct').forEach(el => el.style.color = '#34C759');
+  } else {
+    worstEl.style.background = '#FFF5F5';
+    worstEl.querySelectorAll('.scenario,.amount,.pct').forEach(el => el.style.color = '');
   }
 }
 
