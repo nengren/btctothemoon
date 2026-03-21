@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加密货币恐惧贪婪指数详解——对比特币意味着什么</title>
+<meta name="description" content="恐惧贪婪指数用0-100的尺度衡量加密市场情绪。了解它如何工作以及如何使用。">
+<link rel="canonical" href="https://btctothemoon.uk/zh/guide/fear-and-greed-explained.html">
+<link rel="alternate" hreflang="en" href="https://btctothemoon.uk/guide/fear-and-greed-explained.html">
+<link rel="alternate" hreflang="zh" href="https://btctothemoon.uk/zh/guide/fear-and-greed-explained.html">
+<link rel="alternate" hreflang="es" href="https://btctothemoon.uk/es/guide/fear-and-greed-explained.html">
+<meta property="og:title" content="加密货币恐惧贪婪指数详解">
+<meta property="og:description" content="恐惧贪婪指数用0-100的尺度衡量加密市场情绪。了解它如何工作以及如何使用。">
+<meta property="og:image" content="https://btctothemoon.uk/og-image.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600;700&JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF9F7;--text:#1a1a1a;--text2:#555;--text3:#999;--border:rgba(0,0,0,.08);--accent:#F7931A;--accent-bg:#FFF8F0;--green:#2D8544;--red:#C0392B}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Noto Sans SC',-apple-system,sans-serif;line-height:1.85;font-size:15px}
+nav{position:sticky;top:0;z-index:100;background:rgba(250,249,247,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#F7931A,#F5B041);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;font-family:'JetBrains Mono',monospace}
+.logo-text{font-weight:700;font-size:15px;color:var(--text)}
+article{max-width:680px;margin:0 auto;padding:56px 24px 80px}
+h1{font-family:'Noto Serif SC',serif;font-size:clamp(24px,5vw,36px);font-weight:700;line-height:1.25;margin-bottom:12px}
+.meta{color:var(--text3);font-size:13px;margin-bottom:40px;font-family:'JetBrains Mono',monospace}
+h2{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:700;margin:40px 0 14px}
+p{margin-bottom:18px;color:var(--text2)}
+strong{color:var(--text);font-weight:600}
+a{color:var(--accent)}
+.cta-inline{display:block;text-align:center;padding:28px;background:linear-gradient(135deg,#FFF9F0,#FFF4E6);border:1px solid rgba(247,147,26,.15);border-radius:16px;margin:36px 0;text-decoration:none}
+.cta-inline .cta-text{font-size:14px;color:var(--text2);margin-bottom:12px;line-height:1.6}
+.cta-inline .cta-btn{display:inline-block;padding:10px 28px;background:var(--accent);color:#fff;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none}
+.tg-box{text-align:center;padding:20px;background:linear-gradient(135deg,#E3F2FD,#E8F5E9);border:1px solid rgba(0,136,204,.1);border-radius:12px;margin:28px 0}
+.tg-box a{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#0088CC;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
+.footer-links{margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+.footer-links a{display:block;padding:10px 0;color:var(--accent);text-decoration:none;font-weight:500;font-size:14px;border-bottom:1px solid var(--border)}
+.footer-links a:last-child{border-bottom:none}
+.disclaimer{font-size:11px;color:var(--text3);text-align:center;padding:24px 0;margin-top:40px;border-top:1px solid var(--border);line-height:1.7}
+@media(max-width:520px){article{padding:36px 16px 60px}}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="logo" href="/?lang=zh"><div class="logo-icon">₿</div><span class="logo-text">BTC to the Moon</span></a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="font-size:12px"><a href="/guide/fear-and-greed-explained.html" style="color:var(--text3);text-decoration:none">EN</a> · <a href="/zh/guide/fear-and-greed-explained.html" style="color:var(--accent);font-weight:600;text-decoration:none">中文</a> · <a href="/es/guide/fear-and-greed-explained.html" style="color:var(--text3);text-decoration:none">ES</a></span>
+    <a href="/?lang=zh" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:500">← 实时指标</a>
+  </div>
+</div></nav>
+
+<article>
+<h1>加密货币恐惧贪婪指数详解</h1>
+<div class="meta">更新于 2026年3月 · 阅读约8分钟</div>
+
+<p>巴菲特的名言："在别人贪婪时恐惧，在别人恐惧时贪婪。"恐惧贪婪指数把这个原则变成了一个可衡量的数字。</p>
+
+<h2>它是什么？</h2>
+<p>加密货币恐惧贪婪指数是一个每日指标，用0（极度恐惧）到100（极度贪婪）来评分市场情绪。由Alternative.me创建，已成为加密市场中最受关注的情绪指标之一。</p>
+
+<h2>如何计算？</h2>
+<p>该指数结合六个数据源：<strong>波动性</strong>（25%）——更高的波动性意味着恐惧；<strong>市场动能和成交量</strong>（25%）——强劲买入=贪婪；<strong>社交媒体</strong>（15%）——加密相关帖子的情感分析；<strong>调查</strong>（15%）；<strong>比特币占比</strong>（10%）；<strong>谷歌趋势</strong>（10%）。</p>
+
+<h2>它告诉你什么？</h2>
+<p><strong>极度恐惧（0-25）：</strong>大多数人害怕并在卖出。市场已经崩盘或正在崩盘。历史上，这是最好的买入机会出现的时候——但也是买入最不舒服的时候。</p>
+<p><strong>恐惧（26-40）：</strong>市场谨慎。价格可能仍在下跌，但恐慌正在消退。</p>
+<p><strong>中性（41-60）：</strong>平衡的情绪。市场可能朝任一方向发展。</p>
+<p><strong>贪婪（61-75）：</strong>乐观情绪在增长。价格在上涨。风险开始积累。</p>
+<p><strong>极度贪婪（76-100）：</strong>狂热。所有人认为价格会永远上涨。这是历史上市场最可能回调的时候。</p>
+
+<h2>悖论</h2>
+<p>这个指数在感觉"错误"的时候最有用。当它显示"极度恐惧"而你的直觉说"远离"时，历史告诉你买入能提供最好的长期价值。当它显示"极度贪婪"而你想买更多时，才是需要谨慎的时候。</p>
+
+<h2>我们如何使用它</h2>
+<p>在我们的<a href="/?lang=zh" style="color:var(--accent);font-weight:600">BTC周期指标</a>中，恐惧贪婪指数是四个指标之一，占总分的25%。我们不单独依赖它，因为情绪单独看可能会误导。通过结合链上和技术数据，我们得到更完整的画面。</p>
+
+<a class="cta-inline" href="https://accounts.binance.com/zh-CN/register?ref=GXWQ97QK" target="_blank" rel="noopener noreferrer">
+  <div class="cta-text">使用全球最大的交易所开始积累比特币。永久10%手续费返佣。</div>
+  <span class="cta-btn">注册币安 — 永久10%返佣</span>
+</a>
+
+<div class="tg-box">
+  <p style="font-size:13px;color:var(--text2);margin-bottom:10px">当评分穿越关键位置时及时收到通知</p>
+  <a href="https://t.me/btctothemoon_alerts" target="_blank" rel="noopener noreferrer">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.53 8.15l-1.8 8.48c-.13.6-.5.75-.99.47l-2.76-2.04-1.33 1.28c-.15.15-.27.27-.56.27l.2-2.82 5.1-4.6c.22-.2-.05-.3-.34-.12l-6.31 3.98-2.72-.85c-.59-.18-.6-.59.12-.88l10.63-4.1c.49-.18.93.12.76.88z"/></svg>
+    加入 Telegram 提醒
+  </a>
+</div>
+
+<div class="footer-links">
+  <a href="/?lang=zh">← 查看实时周期评分</a>
+  <a href="/zh/guide/bitcoin-4-year-cycle.html">比特币四年周期详解 →</a>
+  <a href="/zh/guide/when-to-buy-bitcoin.html">什么时候买比特币最好？ →</a>
+  <a href="/zh/guide/bitcoin-200-day-moving-average.html">比特币200日均线详解 →</a>
+</div>
+
+<div class="disclaimer">本文为教育内容，不构成投资建议。加密货币风险极高，历史表现不代表未来。请独立研究。</div>
+</article>
+</body>
+</html>

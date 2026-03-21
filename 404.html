@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page Not Found — BTC Cycle Indicator</title>
+<title>404 — Page Not Found | BTC Cycle Indicator</title>
 <link rel="icon" href="/favicon.ico">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+SC:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;font-family:'Inter',-apple-system,sans-serif;color:#1D1D1F;text-align:center;padding:40px 24px}
+body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FAFAFA;font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;color:#1D1D1F;text-align:center;padding:40px 24px}
 .code{font-size:80px;font-weight:800;color:#F7931A;font-family:'JetBrains Mono',monospace;letter-spacing:-2px}
 h1{font-size:24px;font-weight:700;margin:12px 0 8px}
 p{color:#6E6E73;font-size:15px;max-width:400px;line-height:1.6;margin-bottom:24px}
@@ -20,13 +20,46 @@ a.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(247,147,26,.3)
 </head>
 <body>
 <div class="code">404</div>
-<h1>Page not found</h1>
-<p>The page you're looking for doesn't exist or has been moved. Check out the live Bitcoin cycle indicator instead.</p>
-<a class="btn" href="/">← Back to BTC Cycle Indicator</a>
-<div class="links">
-  Or try: <a href="/guide/bitcoin-4-year-cycle.html">4-Year Cycle</a> ·
-  <a href="/guide/when-to-buy-bitcoin.html">When to Buy</a> ·
-  <a href="/guide/fear-and-greed-explained.html">Fear & Greed</a>
+<h1 id="title">Page not found</h1>
+<p id="desc">The page you're looking for doesn't exist or has been moved. Check out the live Bitcoin cycle indicator instead.</p>
+<a class="btn" href="/" id="back-btn">← Back to BTC Cycle Indicator</a>
+<div class="links" id="guide-links">
+  Or try: <a href="/guide/how-to-buy-bitcoin-2026.html">How to Buy</a> ·
+  <a href="/guide/is-bitcoin-going-to-zero.html">Bitcoin to Zero?</a> ·
+  <a href="/guide/bitcoin-4-year-cycle.html">4-Year Cycle</a>
 </div>
+<script>
+const t = {
+  zh: {
+    title: "页面未找到",
+    desc: "你访问的页面不存在或已被移动。试试查看比特币周期指标。",
+    btn: "← 返回 BTC 周期指标",
+    links: '或试试: <a href="/zh/guide/how-to-buy-bitcoin-2026.html">如何购买</a> · <a href="/zh/guide/is-bitcoin-going-to-zero.html">会归零吗?</a> · <a href="/zh/guide/bitcoin-4-year-cycle.html">四年周期</a>'
+  },
+  es: {
+    title: "Página no encontrada",
+    desc: "La página que buscas no existe o se ha movido. Consulta el indicador de ciclo de Bitcoin.",
+    btn: "← Volver al indicador BTC",
+    links: 'O prueba: <a href="/es/guide/how-to-buy-bitcoin-2026.html">Cómo comprar</a> · <a href="/es/guide/is-bitcoin-going-to-zero.html">¿Bitcoin a cero?</a> · <a href="/es/guide/bitcoin-4-year-cycle.html">Ciclo de 4 años</a>'
+  }
+};
+const path = location.pathname;
+let lang = 'en';
+if (path.startsWith('/zh/')) lang = 'zh';
+else if (path.startsWith('/es/')) lang = 'es';
+else {
+  const bl = (navigator.language || '').toLowerCase();
+  if (bl.startsWith('zh')) lang = 'zh';
+  else if (bl.startsWith('es')) lang = 'es';
+}
+if (t[lang]) {
+  document.getElementById('title').textContent = t[lang].title;
+  document.getElementById('desc').textContent = t[lang].desc;
+  document.getElementById('back-btn').textContent = t[lang].btn;
+  document.getElementById('back-btn').href = lang === 'en' ? '/' : '/?lang=' + lang;
+  document.getElementById('guide-links').innerHTML = t[lang].links;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+}
+</script>
 </body>
 </html>
