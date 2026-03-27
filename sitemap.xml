@@ -11,12 +11,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/guide/bitcoin-200-day-moving-average.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/guide/fear-and-greed-explained.html</loc>
+    <loc>https://btctothemoon.uk/guide/how-to-buy-bitcoin-2026.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -26,7 +21,7 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/guide/how-to-buy-bitcoin-2026.html</loc>
+    <loc>https://btctothemoon.uk/guide/bitcoin-200-day-moving-average.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -41,7 +36,17 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/guide/fear-and-greed-explained.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/daily/index.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/daily/2026-03-27.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
   </url>
