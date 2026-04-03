@@ -1,6 +1,6 @@
 {
-  "score": 30,
-  "lastUpdated": "2026-04-02",
+  "score": 29,
+  "lastUpdated": "2026-04-03",
   "summary": {
     "en": "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains.",
     "zh": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
@@ -9,20 +9,20 @@
     {
       "key": "fear_greed",
       "status": "cold",
-      "value": 12,
+      "value": 9,
       "en": {
         "name": "Fear & Greed",
-        "note": "12/100, Extreme Fear"
+        "note": "9/100, Extreme Fear"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "12/100, 极度恐惧"
+        "note": "9/100, 极度恐惧"
       }
     },
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -26.2,
+      "value": -25.5,
       "en": {
         "name": "Price vs 200DMA",
         "note": "26% below 200DMA"
@@ -35,23 +35,23 @@
     {
       "key": "dominance",
       "status": "cool",
-      "value": 56.1,
+      "value": 56.2,
       "en": {
         "name": "BTC Dominance",
-        "note": "56.1%, normal"
+        "note": "56.2%, normal"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "56.1%，正常"
+        "note": "56.2%，正常"
       }
     }
   ],
   "raw": {
-    "btc_price": 66518,
-    "ma_200": 90099,
-    "fear_greed": 12,
-    "deviation_pct": -26.17,
+    "btc_price": 66931,
+    "ma_200": 89859,
+    "fear_greed": 9,
+    "deviation_pct": -25.52,
     "funding_rate": null,
-    "btc_dominance": 56.11
+    "btc_dominance": 56.16
   }
 }
