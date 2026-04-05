@@ -1,6 +1,6 @@
 {
   "score": 30,
-  "lastUpdated": "2026-04-04",
+  "lastUpdated": "2026-04-05",
   "summary": {
     "en": "The market is in a cool zone with prices below long-term averages. Historically, similar phases have been accumulation periods, though downside risk remains.",
     "zh": "市场处于偏冷区域，价格低于长期均值。历史上类似阶段往往是长期积累的时期，但下行风险仍然存在。"
@@ -9,14 +9,14 @@
     {
       "key": "fear_greed",
       "status": "cold",
-      "value": 11,
+      "value": 12,
       "en": {
         "name": "Fear & Greed",
-        "note": "11/100, Extreme Fear"
+        "note": "12/100, Extreme Fear"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "11/100, 极度恐惧"
+        "note": "12/100, 极度恐惧"
       }
     },
     {
@@ -47,11 +47,11 @@
     }
   ],
   "raw": {
-    "btc_price": 66994,
-    "ma_200": 89610,
-    "fear_greed": 11,
-    "deviation_pct": -25.24,
+    "btc_price": 66860,
+    "ma_200": 89364,
+    "fear_greed": 12,
+    "deviation_pct": -25.18,
     "funding_rate": null,
-    "btc_dominance": 56.17
+    "btc_dominance": 56.23
   }
 }
