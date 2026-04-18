@@ -46,6 +46,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/daily/2026-04-18.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/daily/2026-04-17.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
