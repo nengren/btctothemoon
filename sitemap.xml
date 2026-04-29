@@ -11,26 +11,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/guide/how-to-buy-bitcoin-2026.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/guide/is-bitcoin-going-to-zero.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/guide/bitcoin-4-year-cycle.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/guide/bitcoin-200-day-moving-average.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://btctothemoon.uk/guide/fear-and-greed-explained.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -41,7 +21,32 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/guide/how-to-buy-bitcoin-2026.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/guide/is-bitcoin-going-to-zero.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/guide/bitcoin-200-day-moving-average.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/guide/bitcoin-4-year-cycle.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/daily/index.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/daily/2026-04-29.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
   </url>
@@ -326,22 +331,22 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-07.html</loc>
-    <changefreq>never</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-22.html</loc>
-    <changefreq>never</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-04-03.html</loc>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-07.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-29.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://btctothemoon.uk/milestones/drops-below-30-2026-03-22.html</loc>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
