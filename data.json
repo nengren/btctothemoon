@@ -1,6 +1,6 @@
 {
   "score": 40,
-  "lastUpdated": "2026-05-08",
+  "lastUpdated": "2026-05-09",
   "summary": {
     "en": "The market is in a moderate zone with neutral indicators. Could be recovering from a bottom or consolidating sideways.",
     "zh": "市场处于温和区域，各项指标趋于中性。可能正在从底部恢复，也可能处于横盘整理阶段。"
@@ -22,36 +22,36 @@
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -3.7,
+      "value": -3.0,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "4% below 200DMA"
+        "note": "3% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 4%"
+        "note": "下方 3%"
       }
     },
     {
       "key": "dominance",
       "status": "cool",
-      "value": 58.4,
+      "value": 58.2,
       "en": {
         "name": "BTC Dominance",
-        "note": "58.4%, high"
+        "note": "58.2%, high"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "58.4%，偏高"
+        "note": "58.2%，偏高"
       }
     }
   ],
   "raw": {
-    "btc_price": 79905,
-    "ma_200": 82990,
+    "btc_price": 80377,
+    "ma_200": 82850,
     "fear_greed": 38,
-    "deviation_pct": -3.72,
+    "deviation_pct": -2.99,
     "funding_rate": null,
-    "btc_dominance": 58.41
+    "btc_dominance": 58.16
   }
 }
