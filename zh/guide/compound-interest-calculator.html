@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>比特币复利计算器 — 看看长期持有的力量 | btctothemoon.uk</title>
+<meta name="description" content="免费交互式比特币复利计算器。输入你的投资金额，看看10年、20年、30年后资产如何增长。建立你自己的复利表，找到你的北极星数字。">
+<link rel="canonical" href="https://btctothemoon.uk/zh/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="en" href="https://btctothemoon.uk/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="zh" href="https://btctothemoon.uk/zh/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="es" href="https://btctothemoon.uk/es/guide/compound-interest-calculator.html">
+<meta property="og:title" content="比特币复利计算器">
+<meta property="og:description" content="亲手做一张你自己的复利表，看看长期持有到底意味着什么。免费交互工具。">
+<meta property="og:image" content="https://btctothemoon.uk/og-image.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;--border:rgba(0,0,0,.06);--orange:#F7931A;--orange-light:#FFF8F0;--green:#34C759;--red:#FF3B30}
+*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans SC',-apple-system,sans-serif;line-height:1.8}
+nav{position:sticky;top:0;z-index:100;background:rgba(250,250,250,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#F7931A,#F5B041);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;font-family:'JetBrains Mono',monospace}
+.logo-text{font-weight:700;font-size:15px;color:var(--text)}
+.back-link{font-size:13px;color:var(--orange);text-decoration:none;font-weight:500}
+article{max-width:720px;margin:0 auto;padding:48px 24px 80px}
+h1{font-size:clamp(24px,4vw,36px);font-weight:800;line-height:1.2;letter-spacing:-.5px;margin-bottom:8px}
+.meta{color:var(--text3);font-size:13px;margin-bottom:32px}
+h2{font-size:20px;font-weight:700;margin:36px 0 12px}
+p{margin-bottom:16px;color:var(--text2);font-size:15px}
+strong{color:var(--text)}
+.highlight{padding:20px;background:var(--orange-light);border-radius:12px;border-left:3px solid var(--orange);margin:24px 0}
+.highlight p{margin-bottom:0}
+.cta-inline{display:block;text-align:center;padding:24px;background:linear-gradient(135deg,#FFF9F0,#FFF4E6);border:1px solid rgba(247,147,26,.15);border-radius:16px;margin:32px 0;text-decoration:none}
+.cta-inline .cta-text{font-size:14px;color:var(--text2);margin-bottom:10px}
+.cta-inline .cta-btn{display:inline-block;padding:10px 24px;background:var(--orange);color:#fff;border-radius:10px;font-size:14px;font-weight:600}
+.disclaimer{font-size:11px;color:var(--text3);text-align:center;padding:20px;border-top:1px solid var(--border);margin-top:40px}
+.calc-box{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:24px;margin:28px 0}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.calc-row label{font-size:12px;color:var(--text3);display:block;margin-bottom:4px;font-weight:500}
+.calc-row input[type=number]{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;outline:none;transition:.2s}
+.calc-row input:focus{border-color:var(--orange)}
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.slider-row label{font-size:12px;color:var(--text3);white-space:nowrap;min-width:90px;font-weight:500}
+.slider-row input[type=range]{flex:1;accent-color:var(--orange)}
+.slider-row .val{font-size:14px;font-weight:600;min-width:40px;text-align:right;font-family:'JetBrains Mono',monospace}
+.presets{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.preset-btn{padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:.2s;font-family:inherit}
+.preset-btn:hover,.preset-btn.active{border-color:var(--orange);color:var(--orange);background:var(--orange-light)}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:20px 0}
+.stat{background:var(--bg);border-radius:10px;padding:12px;text-align:center}
+.stat .label{font-size:11px;color:var(--text3);margin-bottom:2px}
+.stat .num{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.stat .num.green{color:var(--green)}
+.stat .num.orange{color:var(--orange)}
+.chart-wrap{position:relative;width:100%;height:240px;margin:20px 0}
+.tbl-wrap{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:12px;margin-top:20px}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:12px}
+.tbl-wrap thead{position:sticky;top:0;background:var(--bg)}
+.tbl-wrap th{text-align:left;padding:8px 12px;font-weight:600;color:var(--text3);font-size:11px}
+.tbl-wrap th:not(:first-child){text-align:right}
+.tbl-wrap td{padding:6px 12px;border-top:1px solid var(--border)}
+.tbl-wrap td:not(:first-child){text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tbl-wrap tr.turning{background:var(--orange-light)}
+.tbl-wrap tr.turning td:first-child::after{content:" ⭐";font-size:11px}
+@media(max-width:520px){article{padding:32px 16px 60px}.calc-row{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.chart-wrap{height:200px}}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="logo" href="/"><div class="logo-icon">₿</div><span class="logo-text">BTC to the Moon</span></a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="font-size:12px"><a href="/guide/compound-interest-calculator.html" style="color:var(--text3);text-decoration:none">EN</a> · <a href="/zh/guide/compound-interest-calculator.html" style="color:var(--orange);font-weight:600;text-decoration:none">中文</a> · <a href="/es/guide/compound-interest-calculator.html" style="color:var(--text3);text-decoration:none">ES</a></span>
+    <a class="back-link" href="/?lang=zh">← 周期坐标</a>
+  </div>
+</div></nav>
+
+<article>
+<h1>比特币复利计算器</h1>
+<div class="meta">交互工具 · 建立你自己的复利表</div>
+
+<p>所有人都知道复利公式：本金 × (1+r)^n。但知道公式不会改变你的行为。<strong>亲手做一张你自己的复利表，才能真正改变行为。</strong></p>
+
+<p>巴菲特的秘密不是选股——是耐心。他让复利替他干了60多年的活。投资的难点不在于理解复利，而在于你是否真的相信它，相信到每次暴跌时都不会恐慌卖出。</p>
+
+<div class="highlight">
+<p><strong>这张复利表就是你的北极星。</strong>当你想追涨杀跌、想频繁操作的时候，打开这个页面，看看20年后那个数字。那个数字比任何人的劝告都更有说服力。</p>
+</div>
+
+<h2>你的个人复利表</h2>
+
+<p>调整下面的参数。特别注意标了 ⭐ 的那一行——那是<strong>转折年</strong>，你的累计收益第一次超过了你的总投入。从那一年开始，复利接管了一切，替你干活。</p>
+
+<div class="calc-box">
+  <div class="calc-row">
+    <div>
+      <label>初始本金 ($)</label>
+      <input type="number" id="principal" value="10000" step="1000" min="0" oninput="calc()">
+    </div>
+    <div>
+      <label>每年追加 ($)</label>
+      <input type="number" id="annual" value="5000" step="1000" min="0" oninput="calc()">
+    </div>
+  </div>
+  <div class="slider-row">
+    <label>年化收益率</label>
+    <input type="range" id="rate" min="1" max="50" value="15" step="1" oninput="calc()">
+    <span class="val" id="rate-val">15%</span>
+  </div>
+  <div class="slider-row">
+    <label>投资年限</label>
+    <input type="range" id="years" min="3" max="40" value="20" step="1" oninput="calc()">
+    <span class="val" id="years-val">20</span>
+  </div>
+  <div class="presets">
+    <button class="preset-btn" onclick="setPreset(10,'保守 10%')">保守 10%</button>
+    <button class="preset-btn active" onclick="setPreset(15,'标普500均值')">标普500均值</button>
+    <button class="preset-btn" onclick="setPreset(25,'BTC 10年均值')">BTC 10年均值</button>
+    <button class="preset-btn" onclick="setPreset(40,'BTC 牛市周期')">BTC 牛市周期</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="label">累计投入</div><div class="num" id="s-invest">-</div></div>
+    <div class="stat"><div class="label">最终资产</div><div class="num green" id="s-value">-</div></div>
+    <div class="stat"><div class="label">增长倍数</div><div class="num orange" id="s-mult">-</div></div>
+  </div>
+  <div class="chart-wrap"><canvas id="chart" role="img" aria-label="复利增长图表，显示总资产与累计投入的对比">加载图表中...</canvas></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>年份</th><th>累计投入</th><th>当年增长</th><th>总资产</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<h2>为什么这对比特币投资特别重要</h2>
+
+<p>比特币过去十年的年化收益率大约在25-30%，虽然年与年之间波动极大。关键不在于精确的收益率——而在于<strong>你穿越的周期越多，复利对你越有利。</strong></p>
+
+<p>我们的<a href="/?lang=zh" style="color:var(--orange)">BTC 周期坐标</a>帮你判断当前处于周期的什么位置。这个计算器帮你理解为什么"留在场上"比"精准择时"更重要。</p>
+
+<div class="highlight">
+<p><strong>首页的历史模拟器告诉你未来12个月会怎样。</strong>这个复利计算器告诉你，如果你用十年、二十年来思考，世界会完全不同。两个视角缺一不可。</p>
+</div>
+
+<a class="cta-inline" href="https://accounts.binance.com/zh-CN/register?ref=GXWQ97QK" target="_blank" rel="noopener noreferrer">
+  <div class="cta-text">准备好开始你的复利之旅了吗？通过币安注册，每笔交易永久节省10%手续费。</div>
+  <div class="cta-btn">注册币安，享10%返佣 →</div>
+</a>
+
+<h2>延伸阅读</h2>
+<p><a href="/zh/guide/bitcoin-4-year-cycle.html" style="color:var(--orange)">比特币四年周期详解 →</a><br>
+<a href="/zh/guide/when-to-buy-bitcoin.html" style="color:var(--orange)">什么时候买比特币？数据告诉你 →</a><br>
+<a href="/zh/guide/how-to-buy-bitcoin-2026.html" style="color:var(--orange)">2026年如何购买比特币 — 新手指南 →</a></p>
+
+<div class="disclaimer">本页面为教育工具，不构成投资建议。复利增长预测假设固定年化回报率，不反映真实市场波动。加密货币投资有极高风险，请独立判断。</div>
+</article>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let chart;
+function fmt(n){
+  if(n>=1e12) return '$'+(n/1e12).toFixed(1)+'T';
+  if(n>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3) return '$'+(n/1e3).toFixed(1)+'K';
+  return '$'+Math.round(n).toLocaleString();
+}
+function setPreset(r, name){
+  document.getElementById('rate').value=r;
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  calc();
+}
+function calc(){
+  const p=Number(document.getElementById('principal').value)||0;
+  const a=Number(document.getElementById('annual').value)||0;
+  const r=Number(document.getElementById('rate').value)/100;
+  const y=Number(document.getElementById('years').value);
+  document.getElementById('rate-val').textContent=Math.round(r*100)+'%';
+  document.getElementById('years-val').textContent=y;
+  const labels=[],invested=[],values=[],rows=[];
+  let total=p, turningYear=-1;
+  for(let i=1;i<=y;i++){
+    const add=i===1?0:a;
+    total=(total+add)*(1+r);
+    const ti=p+a*Math.max(0,i-1);
+    const growth=total-(i>1?values[i-2]+add:p);
+    labels.push('第'+i+'年');
+    invested.push(ti);
+    values.push(total);
+    const isTurning=turningYear<0&&total>=ti*2;
+    if(isTurning) turningYear=i;
+    rows.push({year:i,invested:ti,growth,total,turning:isTurning});
+  }
+  const fi=invested[invested.length-1]||p, fv=values[values.length-1]||p;
+  document.getElementById('s-invest').textContent=fmt(fi);
+  document.getElementById('s-value').textContent=fmt(fv);
+  document.getElementById('s-mult').textContent=fi>0?(fv/fi).toFixed(1)+'x':'-';
+  if(chart) chart.destroy();
+  chart=new Chart(document.getElementById('chart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'总资产',data:values,borderColor:'#34C759',backgroundColor:'rgba(52,199,89,.08)',fill:true,tension:.3,pointRadius:0,borderWidth:2},
+      {label:'累计投入',data:invested,borderColor:'#AEAEB2',backgroundColor:'transparent',borderDash:[6,3],tension:0,pointRadius:0,borderWidth:1.5}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmt(ctx.parsed.y)}}},
+      scales:{x:{ticks:{maxTicksLimit:8,font:{size:11},color:'#AEAEB2'},grid:{display:false}},y:{ticks:{callback:v=>fmt(v),font:{size:11},color:'#AEAEB2'},grid:{color:'rgba(0,0,0,.04)'}}}}
+  });
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML=rows.map(r=>{
+    const cls=r.turning?'turning':'';
+    const w=r.year>y-5?'font-weight:600':'';
+    return `<tr class="${cls}"><td style="${w}">第 ${r.year} 年</td><td>${fmt(r.invested)}</td><td style="color:var(--green)">${fmt(r.growth)}</td><td style="color:var(--text);${w}">${fmt(r.total)}</td></tr>`;
+  }).join('');
+}
+calc();
+</script>
+</body>
+</html>

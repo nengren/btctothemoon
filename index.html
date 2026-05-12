@@ -236,6 +236,7 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
   <a class="logo" href="#"><div class="logo-icon">₿</div><span class="logo-text">BTC to the Moon</span></a>
   <div class="nav-right">
     <button class="nav-btn active" onclick="go('thermometer',this)" data-i18n="nav_cycle">Cycle</button>
+    <button class="nav-btn" onclick="goCompound()" data-i18n="nav_compound">Compound</button>
     <button class="nav-btn" onclick="go('guide',this)" data-i18n="nav_guide">Guide</button>
     <select class="lang-select" id="lang-select" onchange="switchLang(this.value)">
       <option value="en">English</option>
@@ -362,6 +363,12 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
     </div>
   </div>
 
+  <!-- Bridge to Compound Calculator -->
+  <div id="compound-bridge" style="text-align:center;margin-top:16px;display:none">
+    <p style="font-size:13px;color:var(--text3);margin-bottom:8px" data-i18n="bridge_text">The simulator shows the next 12 months. What about 10, 20, 30 years?</p>
+    <a id="compound-link" href="/guide/compound-interest-calculator.html" style="display:inline-block;padding:8px 20px;background:var(--orange-light);border:1px solid rgba(247,147,26,.2);border-radius:10px;font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;transition:.2s" data-i18n="bridge_btn">Open Compound Growth Calculator →</a>
+  </div>
+
 </section>
 
 <!-- Score History Chart -->
@@ -424,6 +431,7 @@ footer p{color:var(--text3);font-size:12px;line-height:1.6;max-width:440px}
     <h2 data-i18n="learn_title" style="font-size:20px;margin:8px 0 16px">Understand the Cycle</h2>
   </div>
   <div style="display:grid;gap:10px">
+    <a href="/guide/compound-interest-calculator.html" class="learn-link-compound" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(247,147,26,.15);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500" data-i18n="learn_compound">🔥 Compound Growth Calculator — See What Holding Does <span style="float:right;color:var(--text3)">→</span></a>
     <a href="/guide/how-to-buy-bitcoin-2026.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(247,147,26,.15);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">🔥 How to Buy Bitcoin in 2026 — Beginner's Guide <span style="float:right;color:var(--text3)">→</span></a>
     <a href="/guide/is-bitcoin-going-to-zero.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(247,147,26,.15);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">🔥 Is Bitcoin Going to Zero? What Data Shows <span style="float:right;color:var(--text3)">→</span></a>
     <a href="/guide/bitcoin-4-year-cycle.html" style="display:block;padding:14px 18px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;text-decoration:none;font-size:14px;color:var(--text);font-weight:500">The Bitcoin 4-Year Cycle Explained <span style="float:right;color:var(--text3)">→</span></a>
@@ -457,7 +465,7 @@ function REF() { return REF_URLS[lang] || REF_URLS.en; }
 
 const LANGS = {
 en: {
-  nav_cycle: "Cycle", nav_guide: "Guide", tag_live: "Updated Daily",
+  nav_cycle: "Cycle", nav_compound: "Compound", nav_guide: "Guide", tag_live: "Updated Daily",
   hero_title: "BTC Cycle Indicator",
   hero_sub: "Based on on-chain data and market indicators. Marks where BTC approximately sits in its historical cycle. No price predictions — just context.",
   loading: "Loading latest data...",
@@ -471,6 +479,8 @@ en: {
   cta_note: "Save ~$10 on every $10,000 traded. Permanent, no expiry.",
   cta_disclosure: "Full disclosure: we earn a matching 10% commission. You pay zero extra — Binance subsidizes both sides from their fee pool.",
   learn_tag: "Learn", learn_title: "Understand the Cycle", daily_link: "View Today's Full Analysis →",
+  learn_compound: "🔥 Compound Growth Calculator — See What Holding Does →",
+  bridge_text: "The simulator shows the next 12 months. What about 10, 20, 30 years?", bridge_btn: "Open Compound Growth Calculator →",
   history_tag: "History", history_title: "Score Trend", history_sub: "Daily composite score over time",
   calc_tag: "Historical Simulator", calc_title: "What if you invested at this score?", calc_sub: "Based on every past instance of a similar score, held for 12 months", calc_label: "Investment", calc_worst: "Worst case", calc_avg: "Average", calc_best: "Best case", calc_note: "Based on historical 12-month returns when the score was in a similar range. Past performance does not guarantee future results.", calc_cta: "Start Investing — 10% Fee Rebate on Binance",
   tg_title: "Get Alerts When the Score Shifts", tg_desc: "Daily score updates + instant alerts when the cycle crosses key levels (30, 50, 70, 90). Free, no spam.", tg_btn: "Join Telegram Channel", tg_note: "1 message per day · Milestone alerts when score changes significantly",
@@ -516,7 +526,7 @@ en: {
   ]
 },
 zh: {
-  nav_cycle: "周期坐标", nav_guide: "新手指南", tag_live: "每日更新",
+  nav_cycle: "周期坐标", nav_compound: "复利计算", nav_guide: "新手指南", tag_live: "每日更新",
   hero_title: "BTC 周期坐标",
   hero_sub: "基于链上数据与市场指标，标注 BTC 在历史周期中的大致位置。不预测价格，只提供参考。",
   loading: "正在获取最新数据...",
@@ -530,6 +540,8 @@ zh: {
   cta_note: "每交易1万美元省约10美元手续费，永久有效。",
   cta_disclosure: "透明声明：我们同样获得10%佣金。你不会多付一分钱——返佣由币安从手续费池中补贴。",
   learn_tag: "学习", learn_title: "理解BTC周期", daily_link: "查看今日完整分析 →",
+  learn_compound: "🔥 复利计算器 — 看看长期持有的力量 →",
+  bridge_text: "模拟器看的是未来12个月。如果坚持10年、20年呢？", bridge_btn: "打开复利计算器 →",
   history_tag: "历史", history_title: "评分走势", history_sub: "每日综合评分变化趋势",
   calc_tag: "历史模拟器", calc_title: "如果你在这个评分买入会怎样？", calc_sub: "基于过去每次类似评分时买入并持有12个月的历史数据", calc_label: "投资金额", calc_worst: "最差", calc_avg: "平均", calc_best: "最好", calc_note: "基于评分处于类似范围时的历史12个月回报。历史表现不代表未来收益。", calc_cta: "开始投资 — 币安永久10%返佣",
   tg_title: "评分变动时及时提醒你", tg_desc: "每日评分推送 + 关键位置即时提醒（30/50/70/90）。免费，无垃圾信息。", tg_btn: "加入 Telegram 频道", tg_note: "每天仅1条消息 · 评分大幅变动时触发里程碑提醒",
@@ -575,7 +587,7 @@ zh: {
   ]
 },
 es: {
-  nav_cycle: "Ciclo", nav_guide: "Guía", tag_live: "Actualizado diariamente",
+  nav_cycle: "Ciclo", nav_compound: "Compuesto", nav_guide: "Guía", tag_live: "Actualizado diariamente",
   hero_title: "Indicador de Ciclo BTC",
   hero_sub: "Basado en datos on-chain e indicadores del mercado. Muestra dónde se encuentra BTC aproximadamente en su ciclo histórico. Sin predicciones de precio — solo contexto.",
   loading: "Cargando últimos datos...",
@@ -589,6 +601,8 @@ es: {
   cta_note: "Ahorra ~$10 por cada $10,000 operados. Permanente, sin caducidad.",
   cta_disclosure: "Transparencia: ganamos una comisión equivalente del 10%. Tú no pagas nada extra — Binance subsidia ambas partes desde su pool de comisiones.",
   learn_tag: "Aprende", learn_title: "Entiende el ciclo", daily_link: "Ver análisis completo de hoy →",
+  learn_compound: "🔥 Calculadora de crecimiento compuesto — El poder del HODL →",
+  bridge_text: "El simulador muestra los próximos 12 meses. ¿Y si piensas en 10, 20, 30 años?", bridge_btn: "Abrir calculadora de crecimiento compuesto →",
   history_tag: "Historial", history_title: "Tendencia de puntuación", history_sub: "Puntuación compuesta diaria a lo largo del tiempo",
   calc_tag: "Simulador histórico", calc_title: "¿Y si hubieras invertido con esta puntuación?", calc_sub: "Basado en cada instancia histórica de una puntuación similar, mantenida 12 meses", calc_label: "Inversión", calc_worst: "Peor caso", calc_avg: "Promedio", calc_best: "Mejor caso", calc_note: "Basado en retornos históricos de 12 meses cuando la puntuación estaba en un rango similar. El rendimiento pasado no garantiza resultados futuros.", calc_cta: "Empezar a invertir — 10% de descuento en Binance",
   tg_title: "Recibe alertas cuando la puntuación cambie", tg_desc: "Actualizaciones diarias + alertas instantáneas cuando el ciclo cruza niveles clave (30, 50, 70, 90). Gratis, sin spam.", tg_btn: "Unirse al canal de Telegram", tg_note: "1 mensaje por día · Alertas de hitos cuando la puntuación cambia significativamente",
@@ -681,6 +695,9 @@ function renderI18n() {
     const file = a.getAttribute('href').replace(/^\/(zh|es)\//, '/').replace(/^\//, '');
     a.href = prefix + '/' + file;
   });
+  // Update compound bridge link
+  const compoundLink = document.getElementById('compound-link');
+  if (compoundLink) compoundLink.href = prefix + '/guide/compound-interest-calculator.html';
   if (data) renderThermo(data);
 }
 
@@ -759,6 +776,7 @@ function initCalc(score) {
   calcScore = score;
   const section = document.getElementById('calc-section');
   section.style.display = '';
+  document.getElementById('compound-bridge').style.display = '';
   document.getElementById('calc-cta').href = REF();
   updateCalc();
 }
@@ -900,6 +918,10 @@ function go(id, btn) {
   document.getElementById(id).scrollIntoView({behavior:'smooth'});
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   if(btn) btn.classList.add('active');
+}
+function goCompound() {
+  const prefix = lang === 'en' ? '' : '/' + lang;
+  window.location.href = prefix + '/guide/compound-interest-calculator.html';
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

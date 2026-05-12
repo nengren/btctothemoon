@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Interés Compuesto Bitcoin — El Poder del HODL | btctothemoon.uk</title>
+<meta name="description" content="Calculadora interactiva gratuita de interés compuesto para Bitcoin. Mira cómo crece tu inversión en 10, 20, 30 años con diferentes tasas de retorno. Construye tu tabla de crecimiento compuesto personal.">
+<link rel="canonical" href="https://btctothemoon.uk/es/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="en" href="https://btctothemoon.uk/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="zh" href="https://btctothemoon.uk/zh/guide/compound-interest-calculator.html">
+<link rel="alternate" hreflang="es" href="https://btctothemoon.uk/es/guide/compound-interest-calculator.html">
+<meta property="og:title" content="Calculadora de Interés Compuesto Bitcoin">
+<meta property="og:description" content="Descubre lo que el holding a largo plazo realmente hace con tu patrimonio. Calculadora interactiva gratuita.">
+<meta property="og:image" content="https://btctothemoon.uk/og-image.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAFA;--text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;--border:rgba(0,0,0,.06);--orange:#F7931A;--orange-light:#FFF8F0;--green:#34C759;--red:#FF3B30}
+*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;line-height:1.8}
+nav{position:sticky;top:0;z-index:100;background:rgba(250,250,250,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#F7931A,#F5B041);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;font-family:'JetBrains Mono',monospace}
+.logo-text{font-weight:700;font-size:15px;color:var(--text)}
+.back-link{font-size:13px;color:var(--orange);text-decoration:none;font-weight:500}
+article{max-width:720px;margin:0 auto;padding:48px 24px 80px}
+h1{font-size:clamp(24px,4vw,36px);font-weight:800;line-height:1.2;letter-spacing:-.5px;margin-bottom:8px}
+.meta{color:var(--text3);font-size:13px;margin-bottom:32px}
+h2{font-size:20px;font-weight:700;margin:36px 0 12px}
+p{margin-bottom:16px;color:var(--text2);font-size:15px}
+strong{color:var(--text)}
+.highlight{padding:20px;background:var(--orange-light);border-radius:12px;border-left:3px solid var(--orange);margin:24px 0}
+.highlight p{margin-bottom:0}
+.cta-inline{display:block;text-align:center;padding:24px;background:linear-gradient(135deg,#FFF9F0,#FFF4E6);border:1px solid rgba(247,147,26,.15);border-radius:16px;margin:32px 0;text-decoration:none}
+.cta-inline .cta-text{font-size:14px;color:var(--text2);margin-bottom:10px}
+.cta-inline .cta-btn{display:inline-block;padding:10px 24px;background:var(--orange);color:#fff;border-radius:10px;font-size:14px;font-weight:600}
+.disclaimer{font-size:11px;color:var(--text3);text-align:center;padding:20px;border-top:1px solid var(--border);margin-top:40px}
+.calc-box{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:24px;margin:28px 0}
+.calc-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.calc-row label{font-size:12px;color:var(--text3);display:block;margin-bottom:4px;font-weight:500}
+.calc-row input[type=number]{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:inherit;outline:none;transition:.2s}
+.calc-row input:focus{border-color:var(--orange)}
+.slider-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.slider-row label{font-size:12px;color:var(--text3);white-space:nowrap;min-width:90px;font-weight:500}
+.slider-row input[type=range]{flex:1;accent-color:var(--orange)}
+.slider-row .val{font-size:14px;font-weight:600;min-width:40px;text-align:right;font-family:'JetBrains Mono',monospace}
+.presets{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.preset-btn{padding:5px 12px;border:1px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:.2s;font-family:inherit}
+.preset-btn:hover,.preset-btn.active{border-color:var(--orange);color:var(--orange);background:var(--orange-light)}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:20px 0}
+.stat{background:var(--bg);border-radius:10px;padding:12px;text-align:center}
+.stat .label{font-size:11px;color:var(--text3);margin-bottom:2px}
+.stat .num{font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.stat .num.green{color:var(--green)}
+.stat .num.orange{color:var(--orange)}
+.chart-wrap{position:relative;width:100%;height:240px;margin:20px 0}
+.tbl-wrap{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:12px;margin-top:20px}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:12px}
+.tbl-wrap thead{position:sticky;top:0;background:var(--bg)}
+.tbl-wrap th{text-align:left;padding:8px 12px;font-weight:600;color:var(--text3);font-size:11px}
+.tbl-wrap th:not(:first-child){text-align:right}
+.tbl-wrap td{padding:6px 12px;border-top:1px solid var(--border)}
+.tbl-wrap td:not(:first-child){text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tbl-wrap tr.turning{background:var(--orange-light)}
+.tbl-wrap tr.turning td:first-child::after{content:" ⭐";font-size:11px}
+@media(max-width:520px){article{padding:32px 16px 60px}.calc-row{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.chart-wrap{height:200px}}
+</style>
+</head>
+<body>
+<nav><div class="nav-inner">
+  <a class="logo" href="/"><div class="logo-icon">₿</div><span class="logo-text">BTC to the Moon</span></a>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span style="font-size:12px"><a href="/guide/compound-interest-calculator.html" style="color:var(--text3);text-decoration:none">EN</a> · <a href="/zh/guide/compound-interest-calculator.html" style="color:var(--text3);text-decoration:none">中文</a> · <a href="/es/guide/compound-interest-calculator.html" style="color:var(--orange);font-weight:600;text-decoration:none">ES</a></span>
+    <a class="back-link" href="/?lang=es">← Indicador</a>
+  </div>
+</div></nav>
+
+<article>
+<h1>Calculadora de Crecimiento Compuesto Bitcoin</h1>
+<div class="meta">Herramienta interactiva · Construye tu tabla de crecimiento personal</div>
+
+<p>Todos conocen la fórmula del interés compuesto: Capital × (1+r)^n. Pero conocer la fórmula no cambia tu comportamiento. <strong>Construir tu propia tabla de crecimiento compuesto sí lo hace.</strong></p>
+
+<p>El secreto de Warren Buffett no es elegir acciones — es la paciencia. Dejó que el interés compuesto trabajara por él durante más de 60 años. El desafío no es entender el crecimiento compuesto; es creer en él lo suficiente como para resistir la tentación de vender durante cada caída.</p>
+
+<div class="highlight">
+<p><strong>Esta calculadora es tu Estrella del Norte.</strong> Cuando sientas la tentación de vender por pánico o perseguir ganancias a corto plazo, abre esta página y mira el número de dentro de 20 años. Ese número es más persuasivo que cualquier consejo.</p>
+</div>
+
+<h2>Tu tabla de crecimiento compuesto personal</h2>
+
+<p>Ajusta los parámetros a continuación. Presta especial atención a la fila con ⭐ — ese es el <strong>punto de inflexión</strong> donde tus rendimientos acumulados superan por primera vez tu inversión total. Después de ese año, el interés compuesto toma el control.</p>
+
+<div class="calc-box">
+  <div class="calc-row">
+    <div>
+      <label>Inversión inicial ($)</label>
+      <input type="number" id="principal" value="10000" step="1000" min="0" oninput="calc()">
+    </div>
+    <div>
+      <label>Aportación anual ($)</label>
+      <input type="number" id="annual" value="5000" step="1000" min="0" oninput="calc()">
+    </div>
+  </div>
+  <div class="slider-row">
+    <label>Retorno anual</label>
+    <input type="range" id="rate" min="1" max="50" value="15" step="1" oninput="calc()">
+    <span class="val" id="rate-val">15%</span>
+  </div>
+  <div class="slider-row">
+    <label>Años</label>
+    <input type="range" id="years" min="3" max="40" value="20" step="1" oninput="calc()">
+    <span class="val" id="years-val">20</span>
+  </div>
+  <div class="presets">
+    <button class="preset-btn" onclick="setPreset(10,'Conservador 10%')">Conservador 10%</button>
+    <button class="preset-btn active" onclick="setPreset(15,'Promedio S&P 500')">Promedio S&P 500</button>
+    <button class="preset-btn" onclick="setPreset(25,'BTC prom. 10 años')">BTC prom. 10 años</button>
+    <button class="preset-btn" onclick="setPreset(40,'Ciclo alcista BTC')">Ciclo alcista BTC</button>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="label">Total invertido</div><div class="num" id="s-invest">-</div></div>
+    <div class="stat"><div class="label">Valor final</div><div class="num green" id="s-value">-</div></div>
+    <div class="stat"><div class="label">Múltiplo</div><div class="num orange" id="s-mult">-</div></div>
+  </div>
+  <div class="chart-wrap"><canvas id="chart" role="img" aria-label="Gráfico de crecimiento compuesto mostrando valor total vs inversión acumulada">Cargando gráfico...</canvas></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Año</th><th>Total invertido</th><th>Crecimiento anual</th><th>Valor total</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Por qué esto importa para Bitcoin</h2>
+
+<p>El retorno anualizado de Bitcoin en la última década ha promediado aproximadamente un 25-30%, aunque con una volatilidad extrema año a año. La clave no es la tasa exacta — es que <strong>cuanto más tiempo mantengas a través de los ciclos, más trabaja el interés compuesto a tu favor.</strong></p>
+
+<p>Nuestro <a href="/?lang=es" style="color:var(--orange)">Indicador de Ciclo BTC</a> te ayuda a entender dónde estamos en el ciclo actual. Esta calculadora te ayuda a entender por qué permanecer en el juego importa más que cronometrar el mercado perfectamente.</p>
+
+<div class="highlight">
+<p><strong>El simulador en nuestra página principal muestra lo que sucede en los próximos 12 meses.</strong> Esta calculadora muestra lo que sucede cuando piensas en décadas. Ambas perspectivas son esenciales.</p>
+</div>
+
+<a class="cta-inline" href="https://accounts.binance.com/es/register?ref=GXWQ97QK" target="_blank" rel="noopener noreferrer">
+  <div class="cta-text">¿Listo para empezar tu camino de crecimiento compuesto? Abre una cuenta en Binance y ahorra un 10% en cada operación.</div>
+  <div class="cta-btn">Registrarse en Binance — 10% de descuento</div>
+</a>
+
+<h2>Lectura adicional</h2>
+<p><a href="/es/guide/bitcoin-4-year-cycle.html" style="color:var(--orange)">El ciclo de 4 años de Bitcoin explicado →</a><br>
+<a href="/es/guide/when-to-buy-bitcoin.html" style="color:var(--orange)">¿Cuándo comprar Bitcoin? Lo que dicen los datos →</a><br>
+<a href="/es/guide/how-to-buy-bitcoin-2026.html" style="color:var(--orange)">Cómo comprar Bitcoin en 2026 — Guía para principiantes →</a></p>
+
+<div class="disclaimer">Esta es una herramienta educativa, no asesoramiento financiero. Las proyecciones de crecimiento compuesto asumen un retorno anual constante, que no refleja la volatilidad del mundo real. Las criptomonedas conllevan un riesgo extremo. Investiga por tu cuenta.</div>
+</article>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let chart;
+function fmt(n){
+  if(n>=1e12) return '$'+(n/1e12).toFixed(1)+'T';
+  if(n>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  if(n>=1e3) return '$'+(n/1e3).toFixed(1)+'K';
+  return '$'+Math.round(n).toLocaleString();
+}
+function setPreset(r, name){
+  document.getElementById('rate').value=r;
+  document.querySelectorAll('.preset-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  calc();
+}
+function calc(){
+  const p=Number(document.getElementById('principal').value)||0;
+  const a=Number(document.getElementById('annual').value)||0;
+  const r=Number(document.getElementById('rate').value)/100;
+  const y=Number(document.getElementById('years').value);
+  document.getElementById('rate-val').textContent=Math.round(r*100)+'%';
+  document.getElementById('years-val').textContent=y;
+  const labels=[],invested=[],values=[],rows=[];
+  let total=p, turningYear=-1;
+  for(let i=1;i<=y;i++){
+    const add=i===1?0:a;
+    total=(total+add)*(1+r);
+    const ti=p+a*Math.max(0,i-1);
+    const growth=total-(i>1?values[i-2]+add:p);
+    labels.push('Año '+i);
+    invested.push(ti);
+    values.push(total);
+    const isTurning=turningYear<0&&total>=ti*2;
+    if(isTurning) turningYear=i;
+    rows.push({year:i,invested:ti,growth,total,turning:isTurning});
+  }
+  const fi=invested[invested.length-1]||p, fv=values[values.length-1]||p;
+  document.getElementById('s-invest').textContent=fmt(fi);
+  document.getElementById('s-value').textContent=fmt(fv);
+  document.getElementById('s-mult').textContent=fi>0?(fv/fi).toFixed(1)+'x':'-';
+  if(chart) chart.destroy();
+  chart=new Chart(document.getElementById('chart'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'Valor total',data:values,borderColor:'#34C759',backgroundColor:'rgba(52,199,89,.08)',fill:true,tension:.3,pointRadius:0,borderWidth:2},
+      {label:'Total invertido',data:invested,borderColor:'#AEAEB2',backgroundColor:'transparent',borderDash:[6,3],tension:0,pointRadius:0,borderWidth:1.5}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+fmt(ctx.parsed.y)}}},
+      scales:{x:{ticks:{maxTicksLimit:8,font:{size:11},color:'#AEAEB2'},grid:{display:false}},y:{ticks:{callback:v=>fmt(v),font:{size:11},color:'#AEAEB2'},grid:{color:'rgba(0,0,0,.04)'}}}}
+  });
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML=rows.map(r=>{
+    const cls=r.turning?'turning':'';
+    const w=r.year>y-5?'font-weight:600':'';
+    return `<tr class="${cls}"><td style="${w}">Año ${r.year}</td><td>${fmt(r.invested)}</td><td style="color:var(--green)">${fmt(r.growth)}</td><td style="color:var(--text);${w}">${fmt(r.total)}</td></tr>`;
+  }).join('');
+}
+calc();
+</script>
+</body>
+</html>
