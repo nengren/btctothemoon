@@ -1,6 +1,6 @@
 {
-  "score": 33,
-  "lastUpdated": "2026-06-03",
+  "score": 32,
+  "lastUpdated": "2026-06-04",
   "summary": {
     "en": "The market is in a moderate zone with neutral indicators. Could be recovering from a bottom or consolidating sideways.",
     "zh": "市场处于温和区域，各项指标趋于中性。可能正在从底部恢复，也可能处于横盘整理阶段。"
@@ -9,49 +9,49 @@
     {
       "key": "fear_greed",
       "status": "cold",
-      "value": 11,
+      "value": 12,
       "en": {
         "name": "Fear & Greed",
-        "note": "11/100, Extreme Fear"
+        "note": "12/100, Extreme Fear"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "11/100, 极度恐惧"
+        "note": "12/100, 极度恐惧"
       }
     },
     {
       "key": "price_200dma",
       "status": "cool",
-      "value": -15.3,
+      "value": -21.1,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "15% below 200DMA"
+        "note": "21% below 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "下方 15%"
+        "note": "下方 21%"
       }
     },
     {
       "key": "dominance",
       "status": "cool",
-      "value": 55.9,
+      "value": 55.4,
       "en": {
         "name": "BTC Dominance",
-        "note": "55.9%, normal"
+        "note": "55.4%, normal"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "55.9%，正常"
+        "note": "55.4%，正常"
       }
     }
   ],
   "raw": {
-    "btc_price": 67017,
-    "ma_200": 79100,
-    "fear_greed": 11,
-    "deviation_pct": -15.28,
+    "btc_price": 62270,
+    "ma_200": 78925,
+    "fear_greed": 12,
+    "deviation_pct": -21.1,
     "funding_rate": null,
-    "btc_dominance": 55.91
+    "btc_dominance": 55.44
   }
 }
