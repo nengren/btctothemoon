@@ -1,6 +1,6 @@
 {
-  "score": 51,
-  "lastUpdated": "2026-08-25",
+  "score": 49,
+  "lastUpdated": "2026-08-26",
   "summary": {
     "en": "Indicators suggest the market is mid-cycle. Sentiment is warming. Risk is manageable but worth monitoring closely.",
     "zh": "多项指标显示市场处于周期中段。情绪逐步回暖，风险在可控范围内，但需持续关注变化趋势。"
@@ -9,27 +9,27 @@
     {
       "key": "fear_greed",
       "status": "warm",
-      "value": 74,
+      "value": 65,
       "en": {
         "name": "Fear & Greed",
-        "note": "74/100, Greed"
+        "note": "65/100, Greed"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "74/100, 贪婪"
+        "note": "65/100, 贪婪"
       }
     },
     {
       "key": "price_200dma",
       "status": "neutral",
-      "value": 16.0,
+      "value": 14.2,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "16% above 200DMA"
+        "note": "14% above 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "上方 16%"
+        "note": "上方 14%"
       }
     },
     {
@@ -47,11 +47,11 @@
     }
   ],
   "raw": {
-    "btc_price": 80176,
-    "ma_200": 69117,
-    "fear_greed": 74,
-    "deviation_pct": 16.0,
+    "btc_price": 78981,
+    "ma_200": 69157,
+    "fear_greed": 65,
+    "deviation_pct": 14.2,
     "funding_rate": null,
-    "btc_dominance": 59.29
+    "btc_dominance": 59.26
   }
 }
