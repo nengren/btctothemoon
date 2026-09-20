@@ -51,6 +51,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://btctothemoon.uk/daily/2026-09-20.html</loc>
+    <changefreq>never</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://btctothemoon.uk/daily/2026-09-19.html</loc>
     <changefreq>never</changefreq>
     <priority>0.6</priority>
@@ -491,17 +496,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/daily/2026-06-23.html</loc>
-    <changefreq>never</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://btctothemoon.uk/milestones/crosses-above-50-2026-09-19.html</loc>
+    <loc>https://btctothemoon.uk/milestones/crosses-above-50-2026-08-30.html</loc>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://btctothemoon.uk/milestones/crosses-above-50-2026-08-30.html</loc>
+    <loc>https://btctothemoon.uk/milestones/crosses-above-50-2026-09-19.html</loc>
     <changefreq>never</changefreq>
     <priority>0.7</priority>
   </url>
