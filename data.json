@@ -1,6 +1,6 @@
 {
-  "score": 52,
-  "lastUpdated": "2026-09-23",
+  "score": 51,
+  "lastUpdated": "2026-09-24",
   "summary": {
     "en": "Indicators suggest the market is mid-cycle. Sentiment is warming. Risk is manageable but worth monitoring closely.",
     "zh": "多项指标显示市场处于周期中段。情绪逐步回暖，风险在可控范围内，但需持续关注变化趋势。"
@@ -22,14 +22,14 @@
     {
       "key": "price_200dma",
       "status": "neutral",
-      "value": 20.7,
+      "value": 18.0,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "21% above 200DMA"
+        "note": "18% above 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "上方 21%"
+        "note": "上方 18%"
       }
     },
     {
@@ -47,11 +47,11 @@
     }
   ],
   "raw": {
-    "btc_price": 85366,
-    "ma_200": 70753,
+    "btc_price": 83618,
+    "ma_200": 70836,
     "fear_greed": 71,
-    "deviation_pct": 20.65,
+    "deviation_pct": 18.04,
     "funding_rate": null,
-    "btc_dominance": 58.73
+    "btc_dominance": 58.72
   }
 }
