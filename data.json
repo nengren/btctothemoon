@@ -1,6 +1,6 @@
 {
   "score": 52,
-  "lastUpdated": "2026-10-01",
+  "lastUpdated": "2026-10-02",
   "summary": {
     "en": "Indicators suggest the market is mid-cycle. Sentiment is warming. Risk is manageable but worth monitoring closely.",
     "zh": "多项指标显示市场处于周期中段。情绪逐步回暖，风险在可控范围内，但需持续关注变化趋势。"
@@ -9,49 +9,49 @@
     {
       "key": "fear_greed",
       "status": "warm",
-      "value": 74,
+      "value": 72,
       "en": {
         "name": "Fear & Greed",
-        "note": "74/100, Greed"
+        "note": "72/100, Greed"
       },
       "zh": {
         "name": "恐惧贪婪",
-        "note": "74/100, 贪婪"
+        "note": "72/100, 贪婪"
       }
     },
     {
       "key": "price_200dma",
       "status": "neutral",
-      "value": 17.7,
+      "value": 21.2,
       "en": {
         "name": "Price vs 200DMA",
-        "note": "18% above 200DMA"
+        "note": "21% above 200DMA"
       },
       "zh": {
         "name": "价格vs均线",
-        "note": "上方 18%"
+        "note": "上方 21%"
       }
     },
     {
       "key": "dominance",
       "status": "cool",
-      "value": 58.5,
+      "value": 58.8,
       "en": {
         "name": "BTC Dominance",
-        "note": "58.5%, high"
+        "note": "58.8%, high"
       },
       "zh": {
         "name": "BTC占比",
-        "note": "58.5%，偏高"
+        "note": "58.8%，偏高"
       }
     }
   ],
   "raw": {
-    "btc_price": 83918,
-    "ma_200": 71309,
-    "fear_greed": 74,
-    "deviation_pct": 17.68,
+    "btc_price": 86499,
+    "ma_200": 71373,
+    "fear_greed": 72,
+    "deviation_pct": 21.19,
     "funding_rate": null,
-    "btc_dominance": 58.48
+    "btc_dominance": 58.84
   }
 }
